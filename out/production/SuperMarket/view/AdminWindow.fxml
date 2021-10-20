@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="contextAdmin" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(#2ae49e, #b8f6df);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminWindowController">
+   <children>
+      <AnchorPane layoutX="25.0" layoutY="75.0" prefHeight="475.0" prefWidth="761.0" style="-fx-background-color: white; -fx-background-radius: 2.5em;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="54.0" layoutY="53.0" onAction="#oprnSystemReport" prefHeight="378.0" prefWidth="280.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 2em;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="110.0" layoutY="303.0" text="SYSTEM REPORT" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="430.0" layoutY="53.0" onAction="#openManageItems" prefHeight="378.0" prefWidth="280.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 2em;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="185.0" fitWidth="181.0" layoutX="480.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/item.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="493.0" layoutY="303.0" text="MANAGE ITEMS" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="101.0" layoutY="108.0" prefHeight="176.0" prefWidth="181.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fitHeight="131.0" fitWidth="111.0" layoutX="38.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/report-icon-13339.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="602.0" layoutY="22.0" prefHeight="29.0" prefWidth="181.0" style="-fx-background-color: #89f0c9; -fx-background-radius: 0.5EM;" text=" " />
+      <FontAwesomeIconView glyphName="USER" layoutX="608.0" layoutY="43.0" size="20" wrappingWidth="17.0" />
+      <Label layoutX="634.0" layoutY="28.0" prefHeight="17.0" prefWidth="142.0" text="MR ADMIN" />
+      <Label layoutX="96.0" layoutY="11.0" prefHeight="41.0" prefWidth="310.0" text="ADMINISTRATION" textFill="WHITE">
+         <font>
+            <Font name="Baskerville Old Face" size="34.0" />
+         </font>
+      </Label>
+      <Label layoutX="96.0" layoutY="47.0" prefHeight="18.0" prefWidth="280.0" text="GREEN MARKET MANAGEMENT SYSTEM" textFill="WHITE">
+         <font>
+            <Font name="Baskerville Old Face" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="55.0" fitWidth="75.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/inlogo2.png" />
+         </image>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="561.0" onAction="#logout" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 0.5em;" text="    Log Out">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <FontAwesomeIconView glyphName="POWER_OFF" layoutX="36.0" layoutY="579.0" size="15" />
+   </children>
+</AnchorPane>

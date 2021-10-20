@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AllItemsController">
+   <children>
+      <AnchorPane fx:id="contextItem" prefHeight="620.0" prefWidth="820.0" style="-fx-background-color: linear-gradient(#2ae49e, #b8f6df);">
+         <children>
+            <AnchorPane layoutX="20.0" layoutY="77.0" prefHeight="515.0" prefWidth="761.0" style="-fx-background-color: white; -fx-background-radius: 2.5em;">
+               <children>
+                  <Label layoutX="69.0" layoutY="303.0" text="MAKE CUSTOMER ORDER" textFill="WHITE">
+                     <font>
+                        <Font name="Baskerville Old Face" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="483.0" layoutY="303.0" text="MANAGE ORDERS" textFill="WHITE">
+                     <font>
+                        <Font name="Baskerville Old Face" size="20.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tblItem" layoutX="22.0" layoutY="21.0" prefHeight="473.0" prefWidth="719.0">
+                     <columns>
+                        <TableColumn fx:id="colID" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="colDesc" prefWidth="115.0" text="Description" />
+                        <TableColumn fx:id="colSize" prefWidth="85.0" text="Pack Size" />
+                        <TableColumn fx:id="colQTY" prefWidth="109.0" text="QTY On Hand" />
+                        <TableColumn fx:id="colPrice" prefWidth="113.0" text="Unit Price" />
+                        <TableColumn fx:id="colDiscount" prefWidth="128.0" text="Discount" />
+                        <TableColumn fx:id="colDelete" prefWidth="93.0" text="Delete" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <Label layoutX="90.0" layoutY="14.0" prefHeight="41.0" prefWidth="318.0" text="ITEM TABLE" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="34.0" />
+               </font>
+            </Label>
+            <Label layoutX="90.0" layoutY="50.0" prefHeight="18.0" prefWidth="280.0" text="GREEN MARKET MANAGEMENT SYSTEM" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="55.0" fitWidth="75.0" layoutX="8.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/inlogo2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

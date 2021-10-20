@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="contextCashier" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(#2ae49e, #b8f6df);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierWindowController">
+   <children>
+      <AnchorPane layoutX="20.0" layoutY="77.0" prefHeight="475.0" prefWidth="761.0" style="-fx-background-color: white; -fx-background-radius: 2.5em;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="54.0" layoutY="53.0" onAction="#openMakeCustomerOrder" prefHeight="378.0" prefWidth="280.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 2em;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="176.0" fitWidth="181.0" layoutX="106.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/cart.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="69.0" layoutY="303.0" text="MAKE CUSTOMER ORDER" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="430.0" layoutY="53.0" onAction="#openManageOrder" prefHeight="378.0" prefWidth="280.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 2em;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="176.0" fitWidth="174.0" layoutX="483.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/edit.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="483.0" layoutY="303.0" text="MANAGE ORDERS" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="592.0" layoutY="22.0" prefHeight="29.0" prefWidth="181.0" style="-fx-background-color: #89f0c9; -fx-background-radius: 0.5EM;" text=" " />
+      <FontAwesomeIconView glyphName="USER" layoutX="598.0" layoutY="43.0" size="20" wrappingWidth="17.0" />
+      <Label layoutX="624.0" layoutY="28.0" prefHeight="17.0" prefWidth="142.0" text="MR CASHIER" />
+      <Label layoutX="90.0" layoutY="14.0" prefHeight="36.0" prefWidth="181.0" text="CASHIER" textFill="WHITE">
+         <font>
+            <Font name="Baskerville Old Face" size="34.0" />
+         </font>
+      </Label>
+      <Label layoutX="90.0" layoutY="50.0" prefHeight="18.0" prefWidth="280.0" text="GREEN MARKET MANAGEMENT SYSTEM" textFill="WHITE">
+         <font>
+            <Font name="Baskerville Old Face" size="14.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" layoutX="16.0" layoutY="565.0" onAction="#logout" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 0.5em;" text="    Log Out">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <FontAwesomeIconView glyphName="POWER_OFF" layoutX="27.0" layoutY="583.0" size="15" />
+      <ImageView fitHeight="55.0" fitWidth="75.0" layoutX="8.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/inlogo2.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

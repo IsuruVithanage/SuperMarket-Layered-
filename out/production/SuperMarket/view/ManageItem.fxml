@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="contextManage" prefHeight="610.0" prefWidth="841.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManageItemController">
+   <children>
+      <AnchorPane prefHeight="610.0" prefWidth="229.0" style="-fx-background-color: linear-gradient(#2ae49e, #b8f6df);">
+         <children>
+            <ImageView fitHeight="37.0" fitWidth="207.0" layoutX="11.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/3549922.png" />
+               </image>
+            </ImageView>
+            <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="12.0" onAction="#back" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #59eab3;" text="Back" />
+            <FontAwesomeIconView glyphName="ANGLE_LEFT" layoutX="18.0" layoutY="31.0" size="20" wrappingWidth="11.99999749660492" />
+            <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="327.0" onAction="#openAddItem" prefHeight="37.0" prefWidth="180.0" style="-fx-background-color: #2ae49e;" text="ADD ITEM" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="19.0" />
+               </font>
+            </JFXButton>
+            <AnchorPane layoutX="48.0" layoutY="85.0" prefHeight="138.0" prefWidth="133.0" style="-fx-background-color: #89f0c9; -fx-background-radius: 1em;">
+               <children>
+                  <FontAwesomeIconView glyphName="USER" layoutX="35.0" layoutY="97.0" size="80" wrappingWidth="55.999997556209564" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="76.0" layoutY="232.0" prefHeight="20.0" prefWidth="88.0" text="MR ADMIN">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="240.0" layoutY="14.0" prefHeight="26.0" prefWidth="150.0" text="ITEM LIST">
+         <font>
+            <Font name="Baskerville Old Face" size="21.0" />
+         </font>
+      </Label>
+      <Separator layoutX="240.0" layoutY="39.0" prefWidth="200.0" style="-fx-background-color: #2ae49e;" />
+      <TableView fx:id="tblItem" layoutX="240.0" layoutY="87.0" prefHeight="497.0" prefWidth="586.0">
+        <columns>
+          <TableColumn fx:id="colID" prefWidth="75.0" text="Item Code" />
+          <TableColumn fx:id="colDesc" prefWidth="113.0" text="Description" />
+            <TableColumn fx:id="colSize" prefWidth="68.0" text="Pack Size" />
+            <TableColumn fx:id="colPrice" prefWidth="97.0" text="Unit Price" />
+            <TableColumn fx:id="colQTY" prefWidth="95.0" text="QTY On Hand" />
+            <TableColumn fx:id="colDiscount" prefWidth="78.0" text="Discount" />
+            <TableColumn fx:id="colDelete" prefWidth="58.0" text="Delete" />
+        </columns>
+      </TableView>
+      <Label layoutX="647.0" layoutY="17.0" text="ITEM COUNT :" textFill="#2ae49e">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="itemCount" layoutX="755.0" layoutY="17.0" text="0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
