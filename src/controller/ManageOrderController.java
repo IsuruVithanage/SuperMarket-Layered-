@@ -2,7 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import dao.CustomerController;
+import dao.CustomerDAOImpl;
 import dao.ItemController;
 import dao.OrderController;
 import javafx.collections.FXCollections;
@@ -106,7 +106,7 @@ public class ManageOrderController extends MakeCustomerOrderController{
 
     //Set customer data in to the text fields
     private void setCustomerData(String customerId) throws SQLException, ClassNotFoundException {
-        Customer c1 = new CustomerController().getCustomer(customerId);
+        Customer c1 = new CustomerDAOImpl().getCustomer(customerId);
         if (c1==null){
             new Alert(Alert.AlertType.WARNING,"Empty Result Set");
         }else{

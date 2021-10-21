@@ -2,7 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import dao.CustomerController;
+import dao.CustomerDAOImpl;
 import dao.ItemController;
 import dao.OrderController;
 import javafx.animation.Animation;
@@ -291,14 +291,14 @@ public class MakeCustomerOrderController {
 
     //Load all customer ids to the comboBox
     public void loadCustomerIds() throws SQLException, ClassNotFoundException {
-        List<String> customerIds = new CustomerController().getCustomerIds();
+        List<String> customerIds = new CustomerDAOImpl().getCustomerIds();
         cmbCustID.getItems().addAll(customerIds);
 
     }
 
     //Set customer data in to the text fields
     private void setCustomerData(String customerId) throws SQLException, ClassNotFoundException {
-        Customer c1 = new CustomerController().getCustomer(customerId);
+        Customer c1 = new CustomerDAOImpl().getCustomer(customerId);
         if (c1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {

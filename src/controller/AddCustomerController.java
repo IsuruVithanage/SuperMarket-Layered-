@@ -1,7 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
-import dao.CustomerController;
+import dao.CustomerDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,7 +36,7 @@ public class AddCustomerController {
         Customer customer=new Customer(CustID.getText(),txtTitle.getText(),txtCustName.getText(),txtAddress.getText(),txtCity.getText(),txtProvince.getText(),txtPostal.getText());
 
         try {
-            if(new CustomerController().saveCustomer(customer)){
+            if(new CustomerDAOImpl().saveCustomer(customer)){
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
 
             }else{
@@ -56,7 +56,7 @@ public class AddCustomerController {
     //Set generated Customer ID
     private void setCustId() {
         try {
-            CustID.setText(new CustomerController().creatCustId());
+            CustID.setText(new CustomerDAOImpl().creatCustId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

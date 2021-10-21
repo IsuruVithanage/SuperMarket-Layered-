@@ -239,7 +239,7 @@ public class OrderController {
     }
 
     public ArrayList<CustIncome> cutomerIncome() throws SQLException, ClassNotFoundException {
-        List<String> custId = new CustomerController().getCustomerIds();
+        List<String> custId = new CustomerDAOImpl().getCustomerIds();
         ArrayList<CustIncome> custList = new ArrayList<>();
 
         for (String id:custId) {

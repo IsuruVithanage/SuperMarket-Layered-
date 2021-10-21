@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import dao.OrderController;

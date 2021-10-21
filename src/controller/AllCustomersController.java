@@ -1,6 +1,6 @@
 package controller;
 
-import dao.CustomerController;
+import dao.CustomerDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -37,7 +37,7 @@ public class AllCustomersController {
         colDelete.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
         try {
-            setCustomersToTable(new CustomerController().getAllCustomer());
+            setCustomersToTable(new CustomerDAOImpl().getAllCustomer());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class AllCustomersController {
                 }else if(result.get() == ButtonType.OK) {
 
                     try {
-                        new CustomerController().deleteCustomer(tm.getCustomerId());
+                        new CustomerDAOImpl().deleteCustomer(tm.getCustomerId());
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }
