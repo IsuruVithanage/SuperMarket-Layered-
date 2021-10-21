@@ -2,9 +2,9 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import dao.CustomerDAOImpl;
-import dao.ItemDAOImpl;
-import dao.OrderDAOImpl;
+import dao.custom.impl.CustomerDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

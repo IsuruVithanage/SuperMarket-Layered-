@@ -1,6 +1,6 @@
 package controller;
 
-import dao.ItemDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;

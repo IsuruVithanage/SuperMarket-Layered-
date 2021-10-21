@@ -1,7 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
-import dao.ItemDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

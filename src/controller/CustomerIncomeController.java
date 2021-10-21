@@ -1,6 +1,6 @@
 package controller;
 
-import dao.OrderDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;

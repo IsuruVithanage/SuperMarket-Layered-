@@ -1,7 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXComboBox;
-import dao.OrderDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

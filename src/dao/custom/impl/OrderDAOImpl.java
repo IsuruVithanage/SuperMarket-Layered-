@@ -1,5 +1,7 @@
-package dao;
+package dao.custom.impl;
 
+import dao.custom.impl.CustomerDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
 import db.DbConnection;
 import javafx.collections.ObservableList;
 import model.*;

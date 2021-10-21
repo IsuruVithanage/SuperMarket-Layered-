@@ -1,17 +1,16 @@
-package dao;
+package dao.custom.impl;
 
-import db.DbConnection;
-import model.Customer;
+import dao.CrudUtil;
+import dao.custom.ItemDAO;
 import model.Item;
 import model.ItemDetails;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemDAOImpl implements ItemDAO{
+public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public List<String> getAllItemIds() throws SQLException, ClassNotFoundException {

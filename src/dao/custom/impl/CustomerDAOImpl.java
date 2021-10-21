@@ -1,9 +1,9 @@
-package dao;
+package dao.custom.impl;
 
-import db.DbConnection;
+import dao.CrudUtil;
+import dao.custom.CustomerDAO;
 import model.Customer;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
