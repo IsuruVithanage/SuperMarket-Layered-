@@ -30,9 +30,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public String generateNewID() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
+        ResultSet rst = CrudUtil.executeQuery("SELECT CustID FROM Customer ORDER BY CustID DESC LIMIT 1;");
         if (rst.next()) {
-            String id = rst.getString("id");
+            String id = rst.getString(1);
             int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
             return String.format("C%03d", newCustomerId);
         } else {
@@ -80,7 +80,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public ArrayList<Customer> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<Customer> allCustomers = new ArrayList();
+        ArrayList<Customer> allCustomers = new ArrayList<>();
         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Customer");
         while (rst.next()) {
             allCustomers.add(new Customer(

@@ -3,8 +3,8 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import dao.CustomerDAOImpl;
-import dao.ItemController;
-import dao.OrderController;
+import dao.ItemDAOImpl;
+import dao.OrderDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -79,7 +79,7 @@ public class ManageOrderController extends MakeCustomerOrderController{
                 addListener((observable, oldValue, newValue) -> {
                     try {
                         obList.clear();
-                        loadItemTable(new OrderController().selectOrder(newValue));
+                        loadItemTable(new OrderDAOImpl().selectOrder(newValue));
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }
@@ -100,7 +100,7 @@ public class ManageOrderController extends MakeCustomerOrderController{
 
     //Load Order Ids for specific Customer
     private void loadOrderIds(String id) throws SQLException, ClassNotFoundException {
-        List<String> customerIds = new OrderController().getOrderIds(id);
+        List<String> customerIds = new OrderDAOImpl().getOrderIds(id);
         cmbOrderID.getItems().addAll(customerIds);
     }
 
@@ -118,7 +118,7 @@ public class ManageOrderController extends MakeCustomerOrderController{
 
     //Set Item data in to the text fields
     public void setItemData(String itemCode) throws SQLException, ClassNotFoundException {
-        Item i1= new ItemController().getItem(itemCode);
+        Item i1= new ItemDAOImpl().getItem(itemCode);
         if (i1==null){
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         }else{
@@ -198,8 +198,8 @@ public class ManageOrderController extends MakeCustomerOrderController{
             // alert is exited, no button has been pressed.
         }else if(result.get() == ButtonType.OK) {
             try {
-                new OrderController().deleteOrder(cmbOrderID.getSelectionModel().getSelectedItem());
-                new OrderController().deleteItem(cmbOrderID.getSelectionModel().getSelectedItem());
+                new OrderDAOImpl().deleteOrder(cmbOrderID.getSelectionModel().getSelectedItem());
+                new OrderDAOImpl().deleteItem(cmbOrderID.getSelectionModel().getSelectedItem());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -230,8 +230,8 @@ public class ManageOrderController extends MakeCustomerOrderController{
             Order order = new Order(cmbOrderID.getSelectionModel().getSelectedItem(),cmbCustID.getValue(),lbDate.getText(),lbTime.getText(), Double.parseDouble(lbTotal.getText()),items);
 
             try {
-                if (new OrderController().updateOrder(order.getOrderId(),order.getItems(),detetedItem)){
-                    new OrderController().placeOrder(order);
+                if (new OrderDAOImpl().updateOrder(order.getOrderId(),order.getItems(),detetedItem)){
+                    new OrderDAOImpl().placeOrder(order);
                 }else{
                     new Alert(Alert.AlertType.WARNING, "Try Again").show();
                 }

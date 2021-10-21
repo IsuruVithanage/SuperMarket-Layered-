@@ -1,7 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
-import dao.ItemController;
+import dao.ItemDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,12 +34,12 @@ public class AddItemController {
         Item item = new Item(itemCode.getText(), txtDesc.getText(), txtpackSize.getText(), Integer.parseInt(txtqtyOnHand.getText()), Double.parseDouble(txtunitPrice.getText()), Double.parseDouble(txtDiscount.getText()));
 
         try {
-            if (new ItemController().searchItem(itemCode.getText())) {
-                new ItemController().deleteItem(itemCode.getText());
-                new ItemController().saveItem(item);
+            if (new ItemDAOImpl().searchItem(itemCode.getText())) {
+                new ItemDAOImpl().deleteItem(itemCode.getText());
+                new ItemDAOImpl().saveItem(item);
             } else {
                 try {
-                    if (new ItemController().saveItem(item)) {
+                    if (new ItemDAOImpl().saveItem(item)) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
 
                     } else {
@@ -71,7 +71,7 @@ public class AddItemController {
     //Set generated Item ID
     private void setItemCode() {
         try {
-            itemCode.setText(new ItemController().creatItemId());
+            itemCode.setText(new ItemDAOImpl().creatItemId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

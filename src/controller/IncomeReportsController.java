@@ -1,6 +1,6 @@
 package controller;
 
-import dao.OrderController;
+import dao.OrderDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -48,9 +48,9 @@ public class IncomeReportsController {
     }
 
     public void loadData() throws SQLException, ClassNotFoundException {
-        List<ItemSells> itemSells=new OrderController().selectTopItem();
+        List<ItemSells> itemSells=new OrderDAOImpl().selectTopItem();
         Collections.sort(itemSells,new MyComparator());
-        ArrayList<MounthlyIncome> mounth=new OrderController().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth=new OrderDAOImpl().mounthlyIncome();
 
         mostItemId.setText(itemSells.get(0).getItemId());
         mostItemSell.setText(String.valueOf(itemSells.get(0).getSell()));

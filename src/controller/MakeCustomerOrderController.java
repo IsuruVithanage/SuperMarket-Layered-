@@ -3,8 +3,8 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import dao.CustomerDAOImpl;
-import dao.ItemController;
-import dao.OrderController;
+import dao.ItemDAOImpl;
+import dao.OrderDAOImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -250,7 +250,7 @@ public class MakeCustomerOrderController {
 
         Order order = new Order(lbOrderId.getText(), cmbCustID.getValue().toString(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
-        if (new OrderController().placeOrder(order)) {
+        if (new OrderDAOImpl().placeOrder(order)) {
             new Alert(Alert.AlertType.CONFIRMATION, "Success").show();
             setorderId();
         } else {
@@ -298,7 +298,7 @@ public class MakeCustomerOrderController {
 
     //Set customer data in to the text fields
     private void setCustomerData(String customerId) throws SQLException, ClassNotFoundException {
-        Customer c1 = new CustomerDAOImpl().getCustomer(customerId);
+        Customer c1 = new CustomerDAOImpl().search(customerId);
         if (c1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -309,7 +309,7 @@ public class MakeCustomerOrderController {
 
     //Set Item data in to the text fields
     public void setItemData(String itemCode) throws SQLException, ClassNotFoundException {
-        Item i1 = new ItemController().getItem(itemCode);
+        Item i1 = new ItemDAOImpl().getItem(itemCode);
         if (i1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -326,7 +326,7 @@ public class MakeCustomerOrderController {
     }
 
     public void loadItemIds() throws SQLException, ClassNotFoundException {
-        List<String> itemIds = new ItemController().getAllItemIds();
+        List<String> itemIds = new ItemDAOImpl().getAllItemIds();
         cmbItem.getItems().addAll(itemIds);
 
     }
@@ -334,7 +334,7 @@ public class MakeCustomerOrderController {
     //Set generated Order ID
     private void setorderId() {
         try {
-            lbOrderId.setText(new OrderController().creatOrderId());
+            lbOrderId.setText(new OrderDAOImpl().creatOrderId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

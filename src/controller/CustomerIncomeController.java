@@ -1,6 +1,6 @@
 package controller;
 
-import dao.OrderController;
+import dao.OrderDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -28,7 +28,7 @@ public class CustomerIncomeController {
     ObservableList<ItemTM> obList = FXCollections.observableArrayList();
     private void loadData() {
         try {
-            ArrayList<CustIncome> custList=new OrderController().cutomerIncome();
+            ArrayList<CustIncome> custList=new OrderDAOImpl().cutomerIncome();
 
             custList.forEach(e->{
                 ItemTM tm = new ItemTM(e.getCustId(),null,null,0,e.getIncome(),7,null);

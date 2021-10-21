@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderController {
+public class OrderDAOImpl {
 
     //Save data in order Table
     public boolean placeOrder(Order order){
@@ -217,7 +217,7 @@ public class OrderController {
 
     //Pass a array by entering all sells that gose from a specific item
     public ArrayList<ItemSells> selectTopItem() throws SQLException, ClassNotFoundException {
-        List<String> itemId = new ItemController().getAllItemIds();
+        List<String> itemId = new ItemDAOImpl().getAllItemIds();
         ArrayList<ItemSells> itemsList = new ArrayList<>();
 
         for (String id:itemId) {
@@ -227,7 +227,7 @@ public class OrderController {
 
 
         for (int j = 0; j <itemId.size() ; j++) {
-            itemsell = new ItemController().selectItemsell(itemId.get(j));
+            itemsell = new ItemDAOImpl().selectItemsell(itemId.get(j));
             for (int i = 0; i < itemsell.size(); i++) {
                 int sell = itemsList.get(j).getSell();
                 itemsList.get(j).setSell(sell + itemsell.get(i).getQty());
