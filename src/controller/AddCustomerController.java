@@ -36,7 +36,7 @@ public class AddCustomerController {
         Customer customer=new Customer(CustID.getText(),txtTitle.getText(),txtCustName.getText(),txtAddress.getText(),txtCity.getText(),txtProvince.getText(),txtPostal.getText());
 
         try {
-            if(new CustomerDAOImpl().saveCustomer(customer)){
+            if(new CustomerDAOImpl().add(customer)){
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
 
             }else{
@@ -56,7 +56,7 @@ public class AddCustomerController {
     //Set generated Customer ID
     private void setCustId() {
         try {
-            CustID.setText(new CustomerDAOImpl().creatCustId());
+            CustID.setText(new CustomerDAOImpl().generateNewID());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
