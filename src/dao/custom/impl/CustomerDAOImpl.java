@@ -54,7 +54,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean delete(String s) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate("DELETE FROM Customer WHERE id=?", s);
+        return CrudUtil.executeUpdate("DELETE FROM Customer WHERE CustID=?", s);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer search(String s) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Customer WHERE id=?", s);
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Customer WHERE CustID=?", s);
         rst.next();
         return new Customer(
                 s,

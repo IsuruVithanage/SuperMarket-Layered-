@@ -1,7 +1,6 @@
 package controller;
 
 import com.jfoenix.controls.JFXComboBox;
-import dao.custom.impl.OrderDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -75,9 +74,9 @@ public class SystemReportsController {
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {
-        List<ItemSells> itemSells=new OrderDAOImpl().selectTopItem();
+        List<ItemSells> itemSells=new OrderController().selectTopItem();
         Collections.sort(itemSells,new MyComparator());
-        ArrayList<MounthlyIncome> mounth=new OrderDAOImpl().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth=new OrderController().mounthlyIncome();
 
         mostItemId.setText(itemSells.get(0).getItemId());
         mostItemSell.setText(String.valueOf(itemSells.get(0).getSell()));
@@ -134,7 +133,7 @@ public class SystemReportsController {
     }
 
     public double annualIncome() throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> mounth=new OrderDAOImpl().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth=new OrderController().mounthlyIncome();
         double yearTotal=0;
 
         for (MounthlyIncome m:mounth) {
@@ -146,7 +145,7 @@ public class SystemReportsController {
     }
 
     public double mounthlyIncome(String mounthIndex) throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> mounth=new OrderDAOImpl().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth=new OrderController().mounthlyIncome();
         double mounthTotal=0;
         int index= index(mounthIndex);
 

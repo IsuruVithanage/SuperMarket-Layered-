@@ -1,6 +1,5 @@
 package controller;
 
-import dao.custom.impl.OrderDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -27,7 +26,7 @@ public class ItemSellsController {
     ObservableList<ItemTM> obList = FXCollections.observableArrayList();
     private void loadData() {
         try {
-            ArrayList<MounthlyIncome> itemList=new OrderDAOImpl().mounthlyIncome();
+            ArrayList<MounthlyIncome> itemList=new OrderController().mounthlyIncome();
 
             itemList.forEach(e->{
                 ItemTM tm = new ItemTM(new DateFormatSymbols().getMonths()[e.getMounth()].toString(),null,null,0,e.getIncome(),7,null);

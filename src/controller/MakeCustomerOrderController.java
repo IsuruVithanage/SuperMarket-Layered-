@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import dao.custom.impl.CustomerDAOImpl;
 import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -250,7 +249,7 @@ public class MakeCustomerOrderController {
 
         Order order = new Order(lbOrderId.getText(), cmbCustID.getValue().toString(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
-        if (new OrderDAOImpl().placeOrder(order)) {
+        if (new OrderController().placeOrder(order)) {
             new Alert(Alert.AlertType.CONFIRMATION, "Success").show();
             setorderId();
         } else {
@@ -334,7 +333,7 @@ public class MakeCustomerOrderController {
     //Set generated Order ID
     private void setorderId() {
         try {
-            lbOrderId.setText(new OrderDAOImpl().creatOrderId());
+            lbOrderId.setText(new OrderController().creatOrderId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
