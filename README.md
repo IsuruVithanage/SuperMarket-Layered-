@@ -1,2 +1,2 @@
 # SuperMarket-Layered-
-This program was built with a layered architecture.
+This program was built with the layered architecture.
