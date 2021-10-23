@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.OrderDAO;
+import model.Customer;
 import model.Order;
 
 import java.sql.ResultSet;
@@ -37,32 +38,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean update(Order order) throws SQLException, ClassNotFoundException {
-        /*ArrayList<ItemDetails> prevItems = selectOrder(orderId);
-        PreparedStatement stm = DbConnection.getInstance().getConnection().prepareStatement("UPDATE Item SET QtyOnHand=? WHERE ItemCode=?");
-        for (ItemDetails temp1 : prevItems) {
-            for (ItemDetails temp2 : newItems) {
-                if (temp1.getItemID().equals(temp2.getItemID()) && temp1.getQty() != temp2.getQty()) {
-                    int prevQTYonhand = getItemQTYOnHand(temp1.getItemID());
-                    stm.setObject(1, prevQTYonhand + temp1.getQty() - temp2.getQty());
-                    stm.setObject(2, temp1.getItemID());
-
-                }
-            }
-        }
-        for (ItemDetails temp1 : prevItems) {
-            for (CartTM temp2 : deletedItem) {
-                if (temp1.getItemID().equals(temp2.getItemId())) {
-                    int prevQTYonhand = getItemQTYOnHand(temp1.getItemID());
-                    stm.setObject(1, prevQTYonhand + temp2.getQty());
-                    stm.setObject(2, temp1.getItemID());
-
-                }
-            }
-        }
-        deleteOrder(orderId);
-        deleteItem(orderId);
-
-        return stm.executeUpdate() > 0;*/
+        return false;
     }
 
     @Override
@@ -82,6 +58,18 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public ArrayList<Order> getAll() throws SQLException, ClassNotFoundException {
-        return null;
+        ArrayList<Order> allOrders = new ArrayList<>();
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order`");
+        while (rst.next()) {
+            allOrders.add(new Order(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4),
+                    rst.getDouble(5),
+                    null
+            ));
+        }
+        return allOrders;
     }
 }
