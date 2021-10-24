@@ -8,6 +8,7 @@ import model.Order;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
 
@@ -17,8 +18,27 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public List<String> getOrderIds() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order`");
+        List<String> ids = new ArrayList<>();
+        while (rst.next()) {
+            ids.add(
+                    rst.getString(1)
+            );
+        }
+        return ids;
+    }
+
+    @Override
     public String generateNewOrderId() throws SQLException, ClassNotFoundException {
-        return null;
+        ResultSet rst = CrudUtil.executeQuery("SELECT OrderId FROM `Order` ORDER BY OrderId DESC LIMIT 1;");
+        if (rst.next()) {
+            String id = rst.getString(1);
+            int newCustomerId = Integer.parseInt(id.replace("O", "")) + 1;
+            return String.format("O%03d", newCustomerId);
+        } else {
+            return "O001";
+        }
     }
 
     @Override

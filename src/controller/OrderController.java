@@ -15,6 +15,7 @@ import java.util.List;
 
 public class OrderController {
 
+    //
     //Save data in order Table
     public boolean placeOrder(Order order){
         Connection con = null;
@@ -59,6 +60,7 @@ public class OrderController {
         return false;
     }
 
+    //
     //Save Data in OrderDetail table
     private boolean saveOrderDetail(String orderId, ArrayList<ItemDetails> items) throws SQLException, ClassNotFoundException {
         for (ItemDetails temp : items
@@ -91,6 +93,7 @@ public class OrderController {
         return stm.executeUpdate()>0;
     }
 
+    //
     //Generate Order Id
     public String creatOrderId() throws SQLException, ClassNotFoundException {
         ResultSet rst = DbConnection.getInstance()
@@ -114,6 +117,7 @@ public class OrderController {
         }
     }
 
+    //
     //Pass All Order IDs using Arraylist
     public List<String> getOrderIds(String id) throws SQLException, ClassNotFoundException {
         PreparedStatement stm = DbConnection.getInstance().getConnection().prepareStatement("SELECT * FROM `Order` WHERE CustID=?");
@@ -143,6 +147,7 @@ public class OrderController {
         return QTYOnHand;
     }
 
+    //
     public ArrayList<ItemDetails>  selectOrder(String orderId) throws SQLException, ClassNotFoundException {
         PreparedStatement stm = DbConnection.getInstance().getConnection().prepareStatement("SELECT * FROM OrderDetail WHERE OrderId=?");
         stm.setObject(1, orderId);
@@ -191,14 +196,17 @@ public class OrderController {
 
     }
 
+    //
     public void deleteOrder(String id) throws SQLException, ClassNotFoundException {
         DbConnection.getInstance().getConnection().prepareStatement("DELETE FROM `Order` WHERE OrderID='"+id+"'").executeUpdate();
     }
 
+    //
     public void deleteItem(String id) throws SQLException, ClassNotFoundException {
         DbConnection.getInstance().getConnection().prepareStatement("DELETE FROM OrderDetail WHERE OrderID='"+id+"'").executeUpdate();
     }
 
+    //
     public ArrayList<Order> getAllOrders(String custid) throws SQLException, ClassNotFoundException {
         ResultSet rst = DbConnection.getInstance().getConnection().
                 prepareStatement("SELECT * FROM `Order` WHERE CustID='"+custid+"'").executeQuery();
