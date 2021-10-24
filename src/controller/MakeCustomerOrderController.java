@@ -2,8 +2,13 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import dao.custom.ItemDAO;
+import dao.custom.OrderDAO;
+import dao.custom.OrderDetailDAO;
 import dao.custom.impl.CustomerDAOImpl;
 import dao.custom.impl.ItemDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
+import dao.custom.impl.OrderDetailDAOImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -58,6 +63,9 @@ public class MakeCustomerOrderController {
     public Label lbError;
     //Add the item in to the Table
     ObservableList<CartTM> obList = FXCollections.observableArrayList();
+    private final OrderDAO orderDAO = new OrderDAOImpl();
+    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
     public void initialize() {
 
@@ -88,10 +96,10 @@ public class MakeCustomerOrderController {
         //Select Customer
         cmbCustID.getSelectionModel().selectedItemProperty().
                 addListener((observable, oldValue, newValue) -> {
-                    custvalue = newValue.toString();
+                    custvalue = newValue;
                     try {
                         tblCart.getItems().clear();
-                        setCustomerData(newValue.toString());
+                        setCustomerData(newValue);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     } catch (ClassNotFoundException e) {
@@ -241,19 +249,23 @@ public class MakeCustomerOrderController {
 
     //Place the Order
     public void placeOrder(ActionEvent actionEvent) {
-        ArrayList<ItemDetails> items = new ArrayList<>();
+        ArrayList<OrderDetail> items = new ArrayList<>();
         for (CartTM tempTm : obList
         ) {
-            items.add(new ItemDetails(tempTm.getItemId(), tempTm.getQty(), tempTm.getDiscount(), tempTm.getUnitPrice()));
+            items.add(new OrderDetail(tempTm.getItemId(), lbOrderId.getText(), tempTm.getQty(), tempTm.getDiscount(), tempTm.getUnitPrice()));
         }
 
-        Order order = new Order(lbOrderId.getText(), cmbCustID.getValue().toString(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
+        Order order = new Order(lbOrderId.getText(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
-        if (new OrderController().placeOrder(order)) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Success").show();
-            setorderId();
-        } else {
-            new Alert(Alert.AlertType.WARNING, "Try Again").show();
+        try {
+            if (orderDAO.add(order) /*&& orderDetailDAO.add(order.getItems())*/) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Success").show();
+                setorderId();
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Try Again").show();
+            }
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -308,7 +320,7 @@ public class MakeCustomerOrderController {
 
     //Set Item data in to the text fields
     public void setItemData(String itemCode) throws SQLException, ClassNotFoundException {
-        Item i1 = new ItemDAOImpl().getItem(itemCode);
+        Item i1 = itemDAO.search(itemCode);
         if (i1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -333,7 +345,7 @@ public class MakeCustomerOrderController {
     //Set generated Order ID
     private void setorderId() {
         try {
-            lbOrderId.setText(new OrderController().creatOrderId());
+            lbOrderId.setText(orderDAO.generateNewOrderId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

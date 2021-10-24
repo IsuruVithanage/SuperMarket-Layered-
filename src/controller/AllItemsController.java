@@ -1,5 +1,6 @@
 package controller;
 
+import dao.custom.ItemDAO;
 import dao.custom.impl.ItemDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ public class AllItemsController {
     public TableColumn colPrice;
     public TableColumn colDiscount;
     public TableColumn colDelete;
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
     public void initialize(){
 
@@ -35,7 +37,7 @@ public class AllItemsController {
         colDelete.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
         try {
-            setItemToTable(new ItemDAOImpl().getAllItem());
+            setItemToTable(itemDAO.getAll());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -60,7 +62,7 @@ public class AllItemsController {
                 }else if(result.get() == ButtonType.OK) {
 
                     try {
-                        new ItemDAOImpl().deleteItem(tm.getItemCode());
+                        itemDAO.delete(tm.getItemCode());
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {

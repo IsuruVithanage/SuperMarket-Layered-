@@ -24,22 +24,11 @@ public class ItemDAOImpl implements ItemDAO {
         return ids;
     }
 
-    /*public boolean searchItem(String id) throws SQLException, ClassNotFoundException {
-        PreparedStatement stm = DbConnection.getInstance().getConnection().prepareStatement("SELECT * FROM Item WHERE ItemCode=?");
-        stm.setObject(1,id);
-        ResultSet rst = stm.executeQuery();
-
-        while (rst.next()){
-            return true;
-        }
-        return false;
-    }*/
-
     @Override
-    public ArrayList<ItemDetails>  selectItemsell(String itemId) throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemDetails> selectItemsell(String itemId) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM OrderDetail WHERE ItemCode=?", itemId);
         ArrayList<ItemDetails> ids = new ArrayList<>();
-        while (rst.next()){
+        while (rst.next()) {
             ids.add(new ItemDetails(
                     rst.getString(1),
                     rst.getInt(3),
@@ -51,8 +40,15 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
+    public boolean updateQTY(String itemCode, int qty) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate("UPDATE Item SET QtyOnHand=(QtyOnHand-?) WHERE  ItemCode=?",
+                qty,
+                itemCode);
+    }
+
+    @Override
     public boolean ifItemExist(String code) throws SQLException, ClassNotFoundException {
-        return false;
+        return CrudUtil.executeQuery("SELECT ItemCode FROM Item WHERE ItemCode=?", code).next();
     }
 
     @Override

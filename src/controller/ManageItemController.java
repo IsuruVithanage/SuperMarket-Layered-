@@ -1,5 +1,6 @@
 package controller;
 
+import dao.custom.ItemDAO;
 import dao.custom.impl.ItemDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +32,7 @@ public class ManageItemController {
     public TableColumn colDelete;
     public Label itemCount;
     public AnchorPane contextManage;
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
     public void initialize(){
 
@@ -44,8 +46,8 @@ public class ManageItemController {
 
 
         try {
-            setItemToTable(new ItemDAOImpl().getAllItem());
-            itemCount.setText(String.valueOf(new ItemDAOImpl().getAllItem().size()));
+            setItemToTable(itemDAO.getAll());
+            itemCount.setText(String.valueOf(itemDAO.getAll().size()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -78,7 +80,7 @@ public class ManageItemController {
                 }else if(result.get() == ButtonType.OK) {
 
                     try {
-                        new ItemDAOImpl().deleteItem(tm.getItemCode());
+                        itemDAO.delete(tm.getItemCode());
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {

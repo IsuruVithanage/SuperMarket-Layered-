@@ -38,7 +38,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
     public ArrayList<OrderDetail> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<OrderDetail> allOrdeDetails = new ArrayList<>();
-        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order`");
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM OrderDetail");
         while (rst.next()) {
             allOrdeDetails.add(new OrderDetail(
                     rst.getString(1),
@@ -50,4 +50,22 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         }
         return allOrdeDetails;
     }
+
+    @Override
+    public ArrayList<OrderDetail> selectOrder(String orderid) throws SQLException, ClassNotFoundException {
+        ArrayList<OrderDetail> OrdeDetailsList = new ArrayList<>();
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM OrderDetail WHERE OrderId=?");
+        while (rst.next()) {
+            OrdeDetailsList.add(new OrderDetail(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getInt(3),
+                    rst.getDouble(4),
+                    rst.getDouble(5)
+            ));
+        }
+        return OrdeDetailsList;
+    }
+
+
 }

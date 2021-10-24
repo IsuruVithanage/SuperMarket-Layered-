@@ -2,7 +2,6 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.OrderDAO;
-import model.Customer;
 import model.Order;
 
 import java.sql.ResultSet;
@@ -28,6 +27,19 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return ids;
     }
+
+    @Override
+    public List<String> getOrderIdsbyCustomer(String id) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order` WHERE CustID=?", id);
+        List<String> ids = new ArrayList<>();
+        while (rst.next()) {
+            ids.add(
+                    rst.getString(1)
+            );
+        }
+        return ids;
+    }
+
 
     @Override
     public String generateNewOrderId() throws SQLException, ClassNotFoundException {
@@ -74,6 +86,24 @@ public class OrderDAOImpl implements OrderDAO {
                 null
 
         );
+    }
+
+    @Override
+    public ArrayList<Order> searchOrderbyCustId(String custId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order` WHERE CustID=?", custId);
+        ArrayList<Order> orderList = new ArrayList<>();
+        while (rst.next()) {
+            orderList.add(new Order(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4),
+                    rst.getDouble(5),
+                    null
+
+            ));
+        }
+        return orderList;
     }
 
     @Override

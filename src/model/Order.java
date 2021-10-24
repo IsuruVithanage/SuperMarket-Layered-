@@ -8,12 +8,12 @@ public class Order {
     private String orderDate;
     private String orderTime;
     private double cost;
-    private ArrayList<ItemDetails> items;
+    private ArrayList<OrderDetail> items;
 
     public Order() {
     }
 
-    public Order(String orderId, String custID, String orderDate, String orderTime, double cost, ArrayList<ItemDetails> items) {
+    public Order(String orderId, String custID, String orderDate, String orderTime, double cost, ArrayList<OrderDetail> items) {
         this.orderId = orderId;
         this.custID = custID;
         this.orderDate = orderDate;
@@ -62,11 +62,11 @@ public class Order {
         this.cost = cost;
     }
 
-    public ArrayList<ItemDetails> getItems() {
+    public ArrayList<OrderDetail> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<ItemDetails> items) {
+    public void setItems(ArrayList<OrderDetail> items) {
         this.items = items;
     }
 

@@ -1,6 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import dao.custom.ItemDAO;
 import dao.custom.impl.ItemDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,7 @@ public class AddItemController {
     public Label itemCode;
     public JFXTextField txtDiscount;
     public AnchorPane contextaddItem;
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
     public void initialize(){
         setItemCode();
@@ -34,12 +36,12 @@ public class AddItemController {
         Item item = new Item(itemCode.getText(), txtDesc.getText(), txtpackSize.getText(), Integer.parseInt(txtqtyOnHand.getText()), Double.parseDouble(txtunitPrice.getText()), Double.parseDouble(txtDiscount.getText()));
 
         try {
-            if (new ItemDAOImpl().searchItem(itemCode.getText())) {
-                new ItemDAOImpl().deleteItem(itemCode.getText());
-                new ItemDAOImpl().saveItem(item);
+            if (itemDAO.ifItemExist(itemCode.getText())) {
+                itemDAO.delete(itemCode.getText());
+                itemDAO.add(item);
             } else {
                 try {
-                    if (new ItemDAOImpl().saveItem(item)) {
+                    if (itemDAO.add(item)) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
 
                     } else {
@@ -71,7 +73,7 @@ public class AddItemController {
     //Set generated Item ID
     private void setItemCode() {
         try {
-            itemCode.setText(new ItemDAOImpl().creatItemId());
+            itemCode.setText(itemDAO.generateNewID());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

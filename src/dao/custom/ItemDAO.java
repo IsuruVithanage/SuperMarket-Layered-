@@ -1,6 +1,8 @@
 package dao.custom;
 
 import dao.CrudDAO;
+import javafx.collections.ObservableList;
+import model.CartTM;
 import model.Item;
 import model.ItemDetails;
 
@@ -13,4 +15,5 @@ public interface ItemDAO extends CrudDAO<Item,String> {
     String generateNewID() throws SQLException, ClassNotFoundException;
     List<String> getAllItemIds() throws SQLException, ClassNotFoundException;
     ArrayList<ItemDetails> selectItemsell(String itemId) throws SQLException, ClassNotFoundException;
+    boolean updateQTY(String itemCode,int qty) throws SQLException, ClassNotFoundException;
 }
