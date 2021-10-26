@@ -2,7 +2,6 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.OrderDetailDAO;
-import model.Order;
 import model.OrderDetail;
 
 import java.sql.ResultSet;

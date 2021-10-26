@@ -15,18 +15,14 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
+import util.LoadFXMLFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -36,26 +32,29 @@ import java.util.List;
 
 public class MakeCustomerOrderController {
     static String custvalue = null;
+    private final OrderDAO orderDAO = new OrderDAOImpl();
+    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
     public AnchorPane context;
     public Label lbTime;
     public Label lbDate;
     public JFXComboBox<String> cmbCustID;
     public TextField txtName;
     public TextField txtAddress;
-    public JFXComboBox cmbItem;
+    public JFXComboBox<String> cmbItem;
     public TextField txtItemDesc;
     public TextField txtPackSize;
     public TextField txtQTYOnHand;
     public TextField txtUniteprice;
     public Label lbDiscount;
     public TextField txtqty;
-    public TableColumn colItemID;
-    public TableColumn colItemDesc;
-    public TableColumn colQTY;
-    public TableColumn colUnitPrice;
-    public TableColumn colDiscount;
-    public TableColumn colTotal;
-    public TableColumn colDelete;
+    public TableColumn<CartTM, String> colItemID;
+    public TableColumn<CartTM, String> colItemDesc;
+    public TableColumn<CartTM, String> colQTY;
+    public TableColumn<CartTM, String> colUnitPrice;
+    public TableColumn<CartTM, String> colDiscount;
+    public TableColumn<CartTM, String> colTotal;
+    public TableColumn<CartTM, String> colDelete;
     public TableView<CartTM> tblCart;
     public Label lbTotal;
     public Label lbOrderId;
@@ -63,9 +62,6 @@ public class MakeCustomerOrderController {
     public Label lbError;
     //Add the item in to the Table
     ObservableList<CartTM> obList = FXCollections.observableArrayList();
-    private final OrderDAO orderDAO = new OrderDAOImpl();
-    private final ItemDAO itemDAO = new ItemDAOImpl();
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
     public void initialize() {
 
@@ -87,10 +83,8 @@ public class MakeCustomerOrderController {
         try {
             loadCustomerIds();//Load custIds to comboBox
             loadItemIds();//Load ItemIds to comboBox
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         //Select Customer
@@ -100,21 +94,17 @@ public class MakeCustomerOrderController {
                     try {
                         tblCart.getItems().clear();
                         setCustomerData(newValue);
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
                     }
                 });
 
         //Selecet Item
         cmbItem.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                setItemData(newValue.toString());
-            } catch (SQLException throwables) {
+                setItemData(newValue);
+            } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
 
         });
@@ -122,38 +112,25 @@ public class MakeCustomerOrderController {
 
     //Back to Cashier
     public void back(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/CashierWindow.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage) context.getScene().getWindow();
-        window.setScene(new Scene(load));
+        LoadFXMLFile.load("CashierWindow", context);
+
     }
 
     //Open Add customer Window
     public void addCustomer(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/AddCustomer.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage) context.getScene().getWindow();
-        window.setScene(new Scene(load));
+        LoadFXMLFile.load("AddCustomer", context);
 
     }
 
     //Open Customer Table window
     public void openCustomerTable(ActionEvent actionEvent) throws IOException {
-        Parent load = FXMLLoader.load(getClass().getResource("../view/AllCustomers.fxml"));
-        Scene scene = new Scene(load);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        LoadFXMLFile.loadOn("AllCustomers");
 
     }
 
     //Open Item Table window
     public void openItemTable(ActionEvent actionEvent) throws IOException {
-        Parent load = FXMLLoader.load(getClass().getResource("../view/AllItems.fxml"));
-        Scene scene = new Scene(load);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        LoadFXMLFile.loadOn("AllItems");
     }
 
     public void addToCart(ActionEvent actionEvent) {
@@ -179,7 +156,7 @@ public class MakeCustomerOrderController {
             //Make a new CartTM
             Button del = new Button("Delete");
             CartTM tm = new CartTM(
-                    cmbItem.getValue().toString(),
+                    cmbItem.getValue(),
                     txtItemDesc.getText(),
                     qtyForCustomer,
                     unitPrice,
@@ -255,7 +232,7 @@ public class MakeCustomerOrderController {
             items.add(new OrderDetail(tempTm.getItemId(), lbOrderId.getText(), tempTm.getQty(), tempTm.getDiscount(), tempTm.getUnitPrice()));
         }
 
-        Order order = new Order(lbOrderId.getText(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
+        OrderDTO order = new OrderDTO(lbOrderId.getText(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
         try {
             if (orderDAO.add(order) /*&& orderDetailDAO.add(order.getItems())*/) {
@@ -346,10 +323,8 @@ public class MakeCustomerOrderController {
     private void setorderId() {
         try {
             lbOrderId.setText(orderDAO.generateNewOrderId());
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

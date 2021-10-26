@@ -3,17 +3,13 @@ package controller;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.impl.CustomerDAOImpl;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import model.Customer;
+import util.LoadFXMLFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 
 public class AddCustomerController {
@@ -27,26 +23,22 @@ public class AddCustomerController {
     public Label CustID;
     public AnchorPane contextAddCust;
 
-    public void initialize(){
+    public void initialize() {
         setCustId();
     }
 
     //Add a new Customer to customer Table
-    public void addCustomer(ActionEvent actionEvent)  {
-        Customer customer=new Customer(CustID.getText(),txtTitle.getText(),txtCustName.getText(),txtAddress.getText(),txtCity.getText(),txtProvince.getText(),txtPostal.getText());
-
+    public void addCustomer(ActionEvent actionEvent) {
+        Customer customer = new Customer(CustID.getText(), txtTitle.getText(), txtCustName.getText(), txtAddress.getText(), txtCity.getText(), txtProvince.getText(), txtPostal.getText());
         try {
-            if(new CustomerDAOImpl().add(customer)){
+            if (new CustomerDAOImpl().add(customer)) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
-
-            }else{
+            } else {
                 new Alert(Alert.AlertType.WARNING, "Try Again..").show();
             }
 
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         setCustId();
@@ -57,19 +49,14 @@ public class AddCustomerController {
     private void setCustId() {
         try {
             CustID.setText(new CustomerDAOImpl().generateNewID());
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
     //Done will go back to make Customer Window
     public void done(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/MakeCustomerOrder.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage)contextAddCust.getScene().getWindow();
-        window.setScene(new Scene(load));
+        LoadFXMLFile.load("MakeCustomerOrder", contextAddCust);
     }
 
     public void clear(ActionEvent actionEvent) {

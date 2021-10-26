@@ -257,7 +257,7 @@ public class OrderController {
         for (String id : custId) {
             custList.add(new CustIncome(id, 0));
         }
-        ArrayList<Order> orders = null;
+        ArrayList<OrderDTO> orders = null;
 
         for (int j = 0; j < custId.size(); j++) {
             orders = orderDAO.searchOrderbyCustId(custId.get(j));
@@ -275,14 +275,14 @@ public class OrderController {
         PreparedStatement stm = DbConnection.getInstance().getConnection().prepareStatement("SELECT * FROM `Order`");
         ResultSet rst = stm.executeQuery();
         ArrayList<MounthlyIncome> income = new ArrayList<>();
-        ArrayList<Order> order = new ArrayList<>();
+        ArrayList<OrderDTO> order = new ArrayList<>();
 
         for (int i = 0; i < 13; i++) {
             income.add(new MounthlyIncome(i, 0));
         }
 
         while (rst.next()) {
-            order.add(new Order(
+            order.add(new OrderDTO(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -293,7 +293,7 @@ public class OrderController {
 
         }
 
-        for (Order o : order) {
+        for (OrderDTO o : order) {
             String[] d = o.getOrderDate().split("-");
             System.out.println(d[1]);
             for (int i = 0; i < income.size(); i++) {

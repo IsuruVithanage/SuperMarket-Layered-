@@ -13,23 +13,23 @@ import dao.custom.impl.OrderDetailDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import model.*;
+import util.LoadFXMLFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class ManageOrderController extends MakeCustomerOrderController {
+    private final OrderDAO orderDAO = new OrderDAOImpl();
+    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
     public AnchorPane contextMO;
     public JFXComboBox<String> cmbItem;
     public TextField txtPackSize;
@@ -52,10 +52,6 @@ public class ManageOrderController extends MakeCustomerOrderController {
     //Load Items for specific order in the table
     ObservableList<CartTM> obList = FXCollections.observableArrayList();
     ObservableList<CartTM> detetedItem = FXCollections.observableArrayList();
-    private final OrderDAO orderDAO = new OrderDAOImpl();
-    private final ItemDAO itemDAO = new ItemDAOImpl();
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
     public void initialize() {
 
@@ -180,18 +176,11 @@ public class ManageOrderController extends MakeCustomerOrderController {
 
 
     public void back(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/CashierWindow.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage) contextMO.getScene().getWindow();
-        window.setScene(new Scene(load));
+        LoadFXMLFile.load("CashierWindow", contextMO);
     }
 
     public void openCustomerTable(ActionEvent actionEvent) throws IOException {
-        Parent load = FXMLLoader.load(getClass().getResource("../view/AllCustomers.fxml"));
-        Scene scene = new Scene(load);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        LoadFXMLFile.loadOn("AllCustomers");
     }
 
     public void openItemTable(ActionEvent actionEvent) {
@@ -236,7 +225,7 @@ public class ManageOrderController extends MakeCustomerOrderController {
                 items.add(new OrderDetail(tempTm.getItemId(), cmbOrderID.getSelectionModel().getSelectedItem(), tempTm.getQty(), tempTm.getDiscount(), tempTm.getUnitPrice()));
             }
 
-            Order order = new Order(cmbOrderID.getSelectionModel().getSelectedItem(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
+            OrderDTO order = new OrderDTO(cmbOrderID.getSelectionModel().getSelectedItem(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
             try {
                 if (new OrderController().updateOrder(order.getOrderId(), order.getItems(), detetedItem)) {
@@ -244,10 +233,8 @@ public class ManageOrderController extends MakeCustomerOrderController {
                 } else {
                     new Alert(Alert.AlertType.WARNING, "Try Again").show();
                 }
-            } catch (SQLException throwables) {
+            } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         } else if (result.get() == ButtonType.CANCEL) {
             // cancel button is pressed

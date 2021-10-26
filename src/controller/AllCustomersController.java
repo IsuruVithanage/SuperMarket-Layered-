@@ -15,19 +15,19 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class AllCustomersController {
+    private final CustomerDAO customerDAO = new CustomerDAOImpl();
     public AnchorPane contectCust;
-    public TableView tblCust;
-    public TableColumn colID;
-    public TableColumn colTitle;
-    public TableColumn colName;
-    public TableColumn colAddress;
-    public TableColumn colCity;
-    public TableColumn colProvince;
-    public TableColumn colPostalCode;
-    public TableColumn colDelete;
-    private CustomerDAO customerDAO=new CustomerDAOImpl();
+    public TableView<CustomerTM> tblCust;
+    public TableColumn<CustomerTM, String> colID;
+    public TableColumn<CustomerTM, String> colTitle;
+    public TableColumn<CustomerTM, String> colName;
+    public TableColumn<CustomerTM, String> colAddress;
+    public TableColumn<CustomerTM, String> colCity;
+    public TableColumn<CustomerTM, String> colProvince;
+    public TableColumn<CustomerTM, String> colPostalCode;
+    public TableColumn<CustomerTM, String> colDelete;
 
-    public void initialize(){
+    public void initialize() {
 
         colID.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         colName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -47,19 +47,19 @@ public class AllCustomersController {
 
     private void setCustomersToTable(ArrayList<Customer> customers) {
         ObservableList<CustomerTM> obList = FXCollections.observableArrayList();
-        customers.forEach(e->{
+        customers.forEach(e -> {
             Button btn = new Button("Delete");
-            CustomerTM tm = new CustomerTM(e.getCustomerId(),e.getCustomerTitle(),e.getCustomerName(),e.getCustomerAddress(),e.getCity(),e.getProvince(),e.getPostalCode(),btn);
+            CustomerTM tm = new CustomerTM(e.getCustomerId(), e.getCustomerTitle(), e.getCustomerName(), e.getCustomerAddress(), e.getCity(), e.getProvince(), e.getPostalCode(), btn);
             obList.add(tm);
-            btn.setOnAction((ei)-> {
-                Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            btn.setOnAction((ei) -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Warning");
                 alert.setHeaderText("Are you sure");
                 alert.setContentText("Select okay or cancel this alert.");
                 Optional<ButtonType> result = alert.showAndWait();
-                if(!result.isPresent()) {
+                if (!result.isPresent()) {
                     // alert is exited, no button has been pressed.
-                }else if(result.get() == ButtonType.OK) {
+                } else if (result.get() == ButtonType.OK) {
 
                     try {
                         customerDAO.delete(tm.getCustomerId());
@@ -69,7 +69,7 @@ public class AllCustomersController {
                     obList.remove(tm);
                     tblCust.refresh();
 
-                }else if(result.get() == ButtonType.CANCEL) {
+                } else if (result.get() == ButtonType.CANCEL) {
                     // cancel button is pressed
                 }
 

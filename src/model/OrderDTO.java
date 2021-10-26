@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Order {
+public class OrderDTO {
     private String orderId;
     private String custID;
     private String orderDate;
@@ -10,10 +10,10 @@ public class Order {
     private double cost;
     private ArrayList<OrderDetail> items;
 
-    public Order() {
+    public OrderDTO() {
     }
 
-    public Order(String orderId, String custID, String orderDate, String orderTime, double cost, ArrayList<OrderDetail> items) {
+    public OrderDTO(String orderId, String custID, String orderDate, String orderTime, double cost, ArrayList<OrderDetail> items) {
         this.orderId = orderId;
         this.custID = custID;
         this.orderDate = orderDate;

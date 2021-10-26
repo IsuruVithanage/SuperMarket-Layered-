@@ -4,21 +4,18 @@ import com.jfoenix.controls.JFXTextField;
 import dao.custom.ItemDAO;
 import dao.custom.impl.ItemDAOImpl;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import model.Item;
 import model.ItemTM;
+import util.LoadFXMLFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 
 public class AddItemController {
+    private final ItemDAO itemDAO = new ItemDAOImpl();
     public JFXTextField txtDesc;
     public JFXTextField txtqtyOnHand;
     public JFXTextField txtpackSize;
@@ -26,9 +23,8 @@ public class AddItemController {
     public Label itemCode;
     public JFXTextField txtDiscount;
     public AnchorPane contextaddItem;
-    private ItemDAO itemDAO=new ItemDAOImpl();
 
-    public void initialize(){
+    public void initialize() {
         setItemCode();
     }
 
@@ -48,40 +44,31 @@ public class AddItemController {
                         new Alert(Alert.AlertType.WARNING, "Try Again..").show();
                     }
 
-                } catch (SQLException throwables) {
+                } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 }
                 setItemCode();
             }
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         setItemCode();
     }
 
-        public void done(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/ManageItem.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage)contextaddItem.getScene().getWindow();
-        window.setScene(new Scene(load));
+    public void done(ActionEvent actionEvent) throws IOException {
+        LoadFXMLFile.load("ManageItem", contextaddItem);
     }
 
     //Set generated Item ID
     private void setItemCode() {
         try {
             itemCode.setText(itemDAO.generateNewID());
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-    public void loadData(ItemTM tm){
+    public void loadData(ItemTM tm) {
         itemCode.setText(tm.getItemCode());
         txtDesc.setText(tm.getDescription());
         txtpackSize.setText(tm.getPackSize());

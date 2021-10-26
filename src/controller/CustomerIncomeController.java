@@ -12,35 +12,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerIncomeController {
-    public TableView tblCust;
-    public TableColumn colCustID;
-    public TableColumn colIncome;
+    public TableView<ItemTM> tblCust;
+    public TableColumn<ItemTM, String> colCustID;
+    public TableColumn<ItemTM, String> colIncome;
+    ObservableList<ItemTM> obList = FXCollections.observableArrayList();
 
-
-    public void initialize(){
+    public void initialize() {
 
         colCustID.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colIncome.setCellValueFactory(new PropertyValueFactory<>("unitePrice"));
         loadData();
     }
 
-    ObservableList<ItemTM> obList = FXCollections.observableArrayList();
     private void loadData() {
         try {
-            ArrayList<CustIncome> custList=new OrderController().cutomerIncome();
+            ArrayList<CustIncome> custList = new OrderController().cutomerIncome();
 
-            custList.forEach(e->{
-                ItemTM tm = new ItemTM(e.getCustId(),null,null,0,e.getIncome(),7,null);
+            custList.forEach(e -> {
+                ItemTM tm = new ItemTM(e.getCustId(), null, null, 0, e.getIncome(), 7, null);
                 obList.add(tm);
 
             });
             tblCust.setItems(obList);
 
 
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
     }

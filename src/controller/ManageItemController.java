@@ -14,27 +14,28 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Item;
 import model.ItemTM;
+import util.LoadFXMLFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class ManageItemController {
-    public TableView tblItem;
-    public TableColumn colID;
-    public TableColumn colDesc;
-    public TableColumn colSize;
-    public TableColumn colPrice;
-    public TableColumn colQTY;
-    public TableColumn colDiscount;
-    public TableColumn colDelete;
+    public TableView<ItemTM> tblItem;
+    public TableColumn<ItemTM, String> colID;
+    public TableColumn<ItemTM, String> colDesc;
+    public TableColumn<ItemTM, String> colSize;
+    public TableColumn<ItemTM, String> colPrice;
+    public TableColumn<ItemTM, String> colQTY;
+    public TableColumn<ItemTM, String> colDiscount;
+    public TableColumn<ItemTM, String> colDelete;
     public Label itemCount;
     public AnchorPane contextManage;
-    private ItemDAO itemDAO=new ItemDAOImpl();
+    ObservableList<ItemTM> obList = FXCollections.observableArrayList();
+    private final ItemDAO itemDAO = new ItemDAOImpl();
 
-    public void initialize(){
+    public void initialize() {
 
         colID.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -48,10 +49,8 @@ public class ManageItemController {
         try {
             setItemToTable(itemDAO.getAll());
             itemCount.setText(String.valueOf(itemDAO.getAll().size()));
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         tblItem.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
@@ -62,34 +61,32 @@ public class ManageItemController {
             }
         });
     }
-    ObservableList<ItemTM> obList = FXCollections.observableArrayList();
+
     private void setItemToTable(ArrayList<Item> items) {
 
-        items.forEach(e->{
+        items.forEach(e -> {
             Button btn = new Button("Delete");
-            ItemTM tm = new ItemTM(e.getItemCode(),e.getDescription(),e.getPackSize(),e.getQtyOnHand(),e.getUnitePrice(),e.getItemdiscount(),btn);
+            ItemTM tm = new ItemTM(e.getItemCode(), e.getDescription(), e.getPackSize(), e.getQtyOnHand(), e.getUnitePrice(), e.getItemdiscount(), btn);
             obList.add(tm);
-            btn.setOnAction((ei)-> {
-                Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            btn.setOnAction((ei) -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Warning");
                 alert.setHeaderText("Are you sure");
                 alert.setContentText("Select okay or cancel this alert.");
                 Optional<ButtonType> result = alert.showAndWait();
-                if(!result.isPresent()) {
+                if (!result.isPresent()) {
                     // alert is exited, no button has been pressed.
-                }else if(result.get() == ButtonType.OK) {
+                } else if (result.get() == ButtonType.OK) {
 
                     try {
                         itemDAO.delete(tm.getItemCode());
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
-                    } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
                     }
                     obList.remove(tm);
                     tblItem.refresh();
 
-                }else if(result.get() == ButtonType.CANCEL) {
+                } else if (result.get() == ButtonType.CANCEL) {
                     // cancel button is pressed
                 }
 
@@ -99,22 +96,19 @@ public class ManageItemController {
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/AdminWindow.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage)contextManage.getScene().getWindow();
-        window.setScene(new Scene(load));
+        LoadFXMLFile.load("AdminWindow", contextManage);
     }
 
     public void updatItem(int index) throws IOException {
-        if (index==-1){
+        if (index == -1) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
-        }else{
+        } else {
             ItemTM tm = obList.get(index);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/AddItem.fxml"));
             Parent parent = loader.load();
-            AddItemController controller = (AddItemController) loader.getController();
+            AddItemController controller = loader.getController();
             controller.loadData(tm);
-            Stage window = (Stage)contextManage.getScene().getWindow();
+            Stage window = (Stage) contextManage.getScene().getWindow();
             window.close();
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
@@ -125,9 +119,7 @@ public class ManageItemController {
     }
 
     public void openAddItem(ActionEvent actionEvent) throws IOException {
-        URL resource = getClass().getResource("../view/AddItem.fxml");
-        Parent load = FXMLLoader.load(resource);
-        Stage window = (Stage)contextManage.getScene().getWindow();
-        window.setScene(new Scene(load));
+        LoadFXMLFile.load("AddItem", contextManage);
+
     }
 }
