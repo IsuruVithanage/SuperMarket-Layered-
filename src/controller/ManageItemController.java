@@ -1,7 +1,7 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.ItemBO;
-import bo.custom.impl.ItemBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.ItemDTO;
+import dto.ItemDTO;
 import util.LoadFXMLFile;
 import view.tm.ItemTM;
 
@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public class ManageItemController {
     private final ObservableList<ItemTM> obList = FXCollections.observableArrayList();
-    private final ItemBO itemBO = new ItemBOImpl();
+    private final ItemBO itemBO = (ItemBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.ITEM);
     public TableView<ItemTM> tblItem;
     public TableColumn<ItemTM, String> colID;
     public TableColumn<ItemTM, String> colDesc;

@@ -1,13 +1,13 @@
 package bo.custom;
 
-import model.Customer;
-import model.CustomerDTO;
+import bo.SuperBO;
+import dto.CustomerDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface CustomerBO {
+public interface CustomerBO extends SuperBO {
     boolean ifCustomerExist(String id) throws SQLException, ClassNotFoundException;
 
     String generateNewID() throws SQLException, ClassNotFoundException;

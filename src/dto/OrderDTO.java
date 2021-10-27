@@ -1,4 +1,6 @@
-package model;
+package dto;
+
+import entity.OrderDetail;
 
 import java.util.ArrayList;
 

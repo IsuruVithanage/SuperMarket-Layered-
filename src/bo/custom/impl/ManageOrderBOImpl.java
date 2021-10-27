@@ -1,15 +1,18 @@
 package bo.custom.impl;
 
+import bo.BoFactory;
 import bo.custom.CustomerBO;
 import bo.custom.ItemBO;
 import bo.custom.ManageOrderBO;
+import dao.DAOFactory;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDetailDAO;
-import dao.custom.impl.OrderDAOImpl;
-import dao.custom.impl.OrderDetailDAOImpl;
 import db.DbConnection;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import dto.OrderDTO;
 import javafx.collections.ObservableList;
-import model.*;
+import entity.*;
 import view.tm.CartTM;
 
 import java.sql.Connection;
@@ -18,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageOrderBOImpl implements ManageOrderBO {
-    private final OrderDAO orderDAO = new OrderDAOImpl();
-    private final CustomerBO customerBO = new CustomerBOImpl();
-    private final ItemBO itemBO = new ItemBOImpl();
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
+    private final OrderDAO orderDAO = (OrderDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    private final CustomerBO customerBO = (CustomerBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.CUSTOMER);
+    private final ItemBO itemBO = (ItemBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.ITEM);
+    private final OrderDetailDAO orderDetailDAO = (OrderDetailDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);
 
     @Override
     public List<String> getOrderIdsbyCustomer(String id) throws SQLException, ClassNotFoundException {
@@ -79,7 +82,7 @@ public class ManageOrderBOImpl implements ManageOrderBO {
             for (CartTM temp2 : deletedItem) {
                 if (temp1.getItemCode().equals(temp2.getItemId())) {
                     int prevQTYonhand = itemBO.getItemQTYOnHand(temp1.getItemCode());
-                    state = itemBO.updateQTY(temp1.getItemCode(), - temp2.getQty());
+                    state = itemBO.updateQTY(temp1.getItemCode(), -temp2.getQty());
                 }
             }
         }

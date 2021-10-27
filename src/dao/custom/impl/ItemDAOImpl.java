@@ -2,8 +2,8 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.ItemDAO;
-import model.Item;
-import model.ItemSells;
+import entity.Item;
+import dto.ItemSellsDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,11 +30,11 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemSellsDTO> selectAllItemSell() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.executeQuery("SELECT ItemCode,count(ItemCode) from OrderDetail group by ItemCode");
-        ArrayList<ItemSells> itemsList = new ArrayList<>();
+        ArrayList<ItemSellsDTO> itemsList = new ArrayList<>();
         while (rst.next()) {
-            itemsList.add(new ItemSells(
+            itemsList.add(new ItemSellsDTO(
                     rst.getString(1),
                     rst.getInt(2)
             ));

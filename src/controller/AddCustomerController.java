@@ -1,13 +1,13 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.CustomerBO;
-import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import model.CustomerDTO;
+import dto.CustomerDTO;
 import util.LoadFXMLFile;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 public class AddCustomerController {
 
-    private final CustomerBO customerBO = new CustomerBOImpl();
+    private final CustomerBO customerBO = (CustomerBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.CUSTOMER);
     public JFXTextField txtTitle;
     public JFXTextField txtCity;
     public JFXTextField txtCustName;

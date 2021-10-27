@@ -1,10 +1,10 @@
 package bo.custom.impl;
 
 import bo.custom.CustomerBO;
+import dao.DAOFactory;
 import dao.custom.CustomerDAO;
-import dao.custom.impl.CustomerDAOImpl;
-import model.Customer;
-import model.CustomerDTO;
+import entity.Customer;
+import dto.CustomerDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
 
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
     @Override
     public boolean ifCustomerExist(String id) throws SQLException, ClassNotFoundException {

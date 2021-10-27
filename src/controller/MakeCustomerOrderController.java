@@ -1,15 +1,9 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.ManageOrderBO;
-import bo.custom.impl.ManageOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import dao.custom.ItemDAO;
-import dao.custom.OrderDAO;
-import dao.custom.OrderDetailDAO;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
-import dao.custom.impl.OrderDetailDAOImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,10 +14,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import model.CustomerDTO;
-import model.ItemDTO;
-import model.OrderDTO;
-import model.OrderDetail;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import dto.OrderDTO;
+import entity.OrderDetail;
 import util.LoadFXMLFile;
 import view.tm.CartTM;
 
@@ -37,12 +31,9 @@ import java.util.List;
 
 public class MakeCustomerOrderController {
     static String custvalue = null;
-    private final OrderDAO orderDAO = new OrderDAOImpl();
-    private final ItemDAO itemDAO = new ItemDAOImpl();
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
     //Add the item in to the Table
     private final ObservableList<CartTM> obList = FXCollections.observableArrayList();
-    private final ManageOrderBO manageOrderBO = new ManageOrderBOImpl();
+    private final ManageOrderBO manageOrderBO = (ManageOrderBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.MANAGE_ORDER);
     public AnchorPane context;
     public Label lbTime;
     public Label lbDate;

@@ -1,16 +1,16 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.IncomeReportsBO;
-import bo.custom.impl.IncomeReportsBOImpl;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import model.ItemSells;
-import model.MounthlyIncome;
-import model.MyComparator;
+import dto.ItemSellsDTO;
+import dto.MounthlyIncomeDTO;
+import dto.MyComparator;
 import util.LoadFXMLFile;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemReportsController {
-    private final IncomeReportsBO incomeReportsBO = new IncomeReportsBOImpl();
+    private final IncomeReportsBO incomeReportsBO = (IncomeReportsBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.INCOME_REPORT);
     public AnchorPane contextSys;
     public BarChart tblChart;
     public Label mostItemId;
@@ -66,9 +66,9 @@ public class SystemReportsController {
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {
-        List<ItemSells> itemSells = incomeReportsBO.selectAllItemSell();
+        List<ItemSellsDTO> itemSells = incomeReportsBO.selectAllItemSell();
         itemSells.sort(new MyComparator());
-        ArrayList<MounthlyIncome> mounth = incomeReportsBO.mounthlyIncome();
+        ArrayList<MounthlyIncomeDTO> mounth = incomeReportsBO.mounthlyIncome();
 
         mostItemId.setText(itemSells.get(0).getItemId());
         mostItemSell.setText(String.valueOf(itemSells.get(0).getSell()));
@@ -76,14 +76,14 @@ public class SystemReportsController {
         leastSell.setText(String.valueOf(itemSells.get(itemSells.size() - 1).getSell()));
 
         XYChart.Series set1 = new XYChart.Series<>();
-        for (ItemSells item : itemSells) {
+        for (ItemSellsDTO item : itemSells) {
             set1.getData().add(new XYChart.Data(item.getItemId(), item.getSell()));
 
         }
         tblChart.getData().addAll(set1);
 
         XYChart.Series set2 = new XYChart.Series<>();
-        for (MounthlyIncome m : mounth) {
+        for (MounthlyIncomeDTO m : mounth) {
             set2.getData().add(new XYChart.Data(m.getMounth(), m.getIncome()));
 
         }
@@ -116,10 +116,10 @@ public class SystemReportsController {
     }
 
     public double annualIncome() throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> mounth = incomeReportsBO.mounthlyIncome();
+        ArrayList<MounthlyIncomeDTO> mounth = incomeReportsBO.mounthlyIncome();
         double yearTotal = 0;
 
-        for (MounthlyIncome m : mounth) {
+        for (MounthlyIncomeDTO m : mounth) {
             yearTotal += m.getIncome();
         }
 
@@ -128,10 +128,10 @@ public class SystemReportsController {
     }
 
     public double mounthlyIncome(String month) throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> incomes = incomeReportsBO.mounthlyIncome();
+        ArrayList<MounthlyIncomeDTO> incomes = incomeReportsBO.mounthlyIncome();
         double mounthTotal = 0;
 
-        for (MounthlyIncome m : incomes) {
+        for (MounthlyIncomeDTO m : incomes) {
             if (month.equals(m.getMounth())) {
                 mounthTotal = m.getIncome();
             }

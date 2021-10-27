@@ -1,4 +1,4 @@
-package model;
+package dto;
 
 public class CustIncomeDTO {
     private String custId;

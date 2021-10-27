@@ -1,11 +1,11 @@
 package bo.custom.impl;
 
 import bo.custom.ItemBO;
+import dao.DAOFactory;
 import dao.custom.ItemDAO;
-import dao.custom.impl.ItemDAOImpl;
-import model.Item;
-import model.ItemDTO;
-import model.ItemSells;
+import entity.Item;
+import dto.ItemDTO;
+import dto.ItemSellsDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ItemBOImpl implements ItemBO {
 
-    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final ItemDAO itemDAO = (ItemDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ITEM);
 
     @Override
     public boolean ifItemExist(String id) throws SQLException, ClassNotFoundException {
@@ -88,7 +88,7 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemSellsDTO> selectAllItemSell() throws SQLException, ClassNotFoundException {
         return itemDAO.selectAllItemSell();
     }
 

@@ -107,7 +107,7 @@
             </Label>
             <ImageView fitHeight="55.0" fitWidth="75.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/inlogo2.png" />
+                  <Image url="@assets/inlogo2.png" />
                </image>
             </ImageView>
             <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="578.0" onAction="#back" prefHeight="18.0" prefWidth="49.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 0.5em;" text="Back">

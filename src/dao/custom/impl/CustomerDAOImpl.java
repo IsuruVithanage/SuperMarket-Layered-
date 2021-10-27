@@ -2,7 +2,7 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.CustomerDAO;
-import model.Customer;
+import entity.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -29,7 +29,7 @@
             </JFXButton>
             <ImageView fitHeight="185.0" fitWidth="181.0" layoutX="480.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/item.jpg" />
+                  <Image url="@assets/item.jpg" />
                </image>
             </ImageView>
             <Label layoutX="493.0" layoutY="303.0" text="MANAGE ITEMS" textFill="WHITE">
@@ -41,7 +41,7 @@
                <children>
                   <ImageView fitHeight="131.0" fitWidth="111.0" layoutX="38.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/report-icon-13339.png" />
+                        <Image url="@assets/report-icon-13339.png" />
                      </image>
                   </ImageView>
                </children>
@@ -63,7 +63,7 @@
       </Label>
       <ImageView fitHeight="55.0" fitWidth="75.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/inlogo2.png" />
+            <Image url="@assets/inlogo2.png" />
          </image>
       </ImageView>
       <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="561.0" onAction="#logout" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #41e7a9; -fx-background-radius: 0.5em;" text="    Log Out">

@@ -21,7 +21,7 @@
             <JFXButton buttonType="RAISED" layoutX="13.0" layoutY="17.0" onAction="#back" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #59eab3;" text="Back" />
             <ImageView fitHeight="35.0" fitWidth="191.0" layoutX="4.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/3549922.png" />
+                  <Image url="@assets/3549922.png" />
                </image>
             </ImageView>
             <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="320.0" onAction="#customerwiseIncome" prefHeight="37.0" prefWidth="180.0" style="-fx-background-color: #2ae49e;" text="CUSTOMER WISE INCOME" textFill="WHITE">

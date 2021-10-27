@@ -1,27 +1,26 @@
 package bo.custom.impl;
 
 import bo.custom.IncomeReportsBO;
+import dao.DAOFactory;
 import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
-import model.ItemSells;
-import model.MounthlyIncome;
+import dto.ItemSellsDTO;
+import dto.MounthlyIncomeDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class IncomeReportsBOImpl implements IncomeReportsBO {
-    private final OrderDAO orderDAO=new OrderDAOImpl();
-    private final ItemDAO itemDAO=new ItemDAOImpl();
+    private final OrderDAO orderDAO=(OrderDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    private final ItemDAO itemDAO=(ItemDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ITEM);
 
     @Override
-    public ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemSellsDTO> selectAllItemSell() throws SQLException, ClassNotFoundException {
         return itemDAO.selectAllItemSell();
     }
 
     @Override
-    public ArrayList<MounthlyIncome> mounthlyIncome() throws SQLException, ClassNotFoundException {
+    public ArrayList<MounthlyIncomeDTO> mounthlyIncome() throws SQLException, ClassNotFoundException {
         return orderDAO.mounthlyIncome();
     }
 }

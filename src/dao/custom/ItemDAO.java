@@ -1,8 +1,8 @@
 package dao.custom;
 
 import dao.CrudDAO;
-import model.Item;
-import model.ItemSells;
+import entity.Item;
+import dto.ItemSellsDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public interface ItemDAO extends CrudDAO<Item, String> {
 
     boolean updateQTY(String itemCode, int qty) throws SQLException, ClassNotFoundException;
 
-    ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException;
+    ArrayList<ItemSellsDTO> selectAllItemSell() throws SQLException, ClassNotFoundException;
 
     int getItemQTYOnHand(String id) throws SQLException, ClassNotFoundException;
 

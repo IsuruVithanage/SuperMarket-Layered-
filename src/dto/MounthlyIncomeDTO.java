@@ -1,13 +1,13 @@
-package model;
+package dto;
 
-public class MounthlyIncome {
+public class MounthlyIncomeDTO {
     private String mounth;
     private double income;
 
-    public MounthlyIncome() {
+    public MounthlyIncomeDTO() {
     }
 
-    public MounthlyIncome(String mounth, double income) {
+    public MounthlyIncomeDTO(String mounth, double income) {
         this.mounth = mounth;
         this.income = income;
     }

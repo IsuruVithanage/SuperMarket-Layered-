@@ -1,13 +1,14 @@
 package bo.custom;
 
-import model.ItemDTO;
-import model.ItemSells;
+import bo.SuperBO;
+import dto.ItemDTO;
+import dto.ItemSellsDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ItemBO {
+public interface ItemBO extends SuperBO {
     boolean ifItemExist(String id) throws SQLException, ClassNotFoundException;
 
     String generateNewID() throws SQLException, ClassNotFoundException;
@@ -26,7 +27,7 @@ public interface ItemBO {
 
     boolean updateQTY(String itemCode, int qty) throws SQLException, ClassNotFoundException;
 
-    ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException;
+    ArrayList<ItemSellsDTO> selectAllItemSell() throws SQLException, ClassNotFoundException;
 
     int getItemQTYOnHand(String id) throws SQLException, ClassNotFoundException;
 

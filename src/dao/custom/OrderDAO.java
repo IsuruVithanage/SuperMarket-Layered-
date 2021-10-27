@@ -1,10 +1,9 @@
 package dao.custom;
 
 import dao.CrudDAO;
-import model.CustIncomeDTO;
-import model.MounthlyIncome;
-import model.Order;
-import model.OrderDTO;
+import dto.CustIncomeDTO;
+import dto.MounthlyIncomeDTO;
+import entity.Order;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public interface OrderDAO extends CrudDAO<Order, String> {
 
     ArrayList<CustIncomeDTO> cutomerIncome() throws SQLException, ClassNotFoundException;
 
-    ArrayList<MounthlyIncome> mounthlyIncome() throws SQLException, ClassNotFoundException;
+    ArrayList<MounthlyIncomeDTO> mounthlyIncome() throws SQLException, ClassNotFoundException;
 
 
 }

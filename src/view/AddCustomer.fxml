@@ -14,7 +14,7 @@
          <children>
             <ImageView fitHeight="43.0" fitWidth="64.0" layoutX="7.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/inlogo2.png" />
+                  <Image url="@assets/inlogo2.png" />
                </image>
             </ImageView>
             <Label layoutX="87.0" layoutY="9.0" prefHeight="41.0" prefWidth="280.0" text="ADD CUSTOMER" textFill="WHITE">

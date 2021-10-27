@@ -2,9 +2,9 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.OrderDAO;
-import model.CustIncomeDTO;
-import model.MounthlyIncome;
-import model.Order;
+import dto.CustIncomeDTO;
+import dto.MounthlyIncomeDTO;
+import entity.Order;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,12 +58,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public ArrayList<MounthlyIncome> mounthlyIncome() throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> income = new ArrayList<>();
+    public ArrayList<MounthlyIncomeDTO> mounthlyIncome() throws SQLException, ClassNotFoundException {
+        ArrayList<MounthlyIncomeDTO> income = new ArrayList<>();
         for (String month : monthlist) {
             ResultSet rst = CrudUtil.executeQuery("SELECT SUM(cost) From `Order` WHERE monthname(orderDate)=?", month);
             while (rst.next()) {
-                income.add(new MounthlyIncome(month, rst.getDouble(1)));
+                income.add(new MounthlyIncomeDTO(month, rst.getDouble(1)));
             }
         }
         return income;

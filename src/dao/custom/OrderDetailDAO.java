@@ -1,7 +1,7 @@
 package dao.custom;
 
 import dao.CrudDAO;
-import model.OrderDetail;
+import entity.OrderDetail;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

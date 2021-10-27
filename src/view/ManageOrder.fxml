@@ -21,7 +21,7 @@
             <FontAwesomeIconView glyphName="ANGLE_LEFT" layoutX="23.0" layoutY="33.0" size="20" wrappingWidth="11.99999749660492" />
             <ImageView fitHeight="37.0" fitWidth="207.0" layoutX="14.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/3549922.png" />
+                  <Image url="@assets/3549922.png" />
                </image>
             </ImageView>
             <AnchorPane layoutX="51.0" layoutY="85.0" prefHeight="138.0" prefWidth="133.0" style="-fx-background-color: #89f0c9; -fx-background-radius: 1em;">

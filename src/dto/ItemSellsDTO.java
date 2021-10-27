@@ -1,13 +1,13 @@
-package model;
+package dto;
 
-public class ItemSells {
+public class ItemSellsDTO {
     private String itemId;
     private int sell;
 
-    public ItemSells() {
+    public ItemSellsDTO() {
     }
 
-    public ItemSells(String itemId, int sell) {
+    public ItemSellsDTO(String itemId, int sell) {
         this.itemId = itemId;
         this.sell = sell;
     }

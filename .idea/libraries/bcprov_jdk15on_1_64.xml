@@ -1,0 +1,26 @@
+<component name="libraryTable">
+  <library name="bcprov-jdk15on-1.64">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/bcprov-jdk15on-1.64.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/castor-core-1.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/castor-xml-1.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/commons-beanutils-1.9.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/commons-collections-3.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/commons-collections4-4.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/commons-digester-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/commons-lang3-3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/ecj-3.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/itext-2.1.7.js8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/jackson-annotations-2.12.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/jackson-core-2.12.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/jackson-databind-2.12.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/jasperreports-6.17.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/jcommon-1.0.23.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Puddings &amp; Cakes/.idea/libraries/jfreechart-1.0.19.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

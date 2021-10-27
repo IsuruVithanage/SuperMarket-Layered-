@@ -1,27 +1,19 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.ManageOrderBO;
-import bo.custom.impl.ManageOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import dao.custom.CustomerDAO;
-import dao.custom.ItemDAO;
-import dao.custom.OrderDAO;
-import dao.custom.OrderDetailDAO;
-import dao.custom.impl.CustomerDAOImpl;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
-import dao.custom.impl.OrderDetailDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.CustomerDTO;
-import model.ItemDTO;
-import model.OrderDTO;
-import model.OrderDetail;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import dto.OrderDTO;
+import entity.OrderDetail;
 import util.LoadFXMLFile;
 import view.tm.CartTM;
 
@@ -35,7 +27,7 @@ public class ManageOrderController extends MakeCustomerOrderController {
     //Load Items for specific order in the table
     private final ObservableList<CartTM> obList = FXCollections.observableArrayList();
     private final ObservableList<CartTM> detetedItem = FXCollections.observableArrayList();
-    private final ManageOrderBO manageOrderBO = new ManageOrderBOImpl();
+    private final ManageOrderBO manageOrderBO = (ManageOrderBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.MANAGE_ORDER);
     public AnchorPane contextMO;
     public JFXComboBox<String> cmbItem;
     public TextField txtPackSize;

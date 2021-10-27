@@ -1,13 +1,13 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.ItemBO;
-import bo.custom.impl.ItemBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.ItemDTO;
+import dto.ItemDTO;
 import view.tm.ItemTM;
 
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class AllItemsController {
-    private final ItemBO itemBO = new ItemBOImpl();
+    private final ItemBO itemBO = (ItemBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.ITEM);
     public AnchorPane contextItem;
     public TableView<ItemTM> tblItem;
     public TableColumn<ItemTM, String> colID;

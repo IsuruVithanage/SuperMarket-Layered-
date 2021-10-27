@@ -1,4 +1,4 @@
-package model;
+package dto;
 
 public class ItemDTO {private String itemCode;
     private String description;

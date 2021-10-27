@@ -1,24 +1,21 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.ItemBO;
-import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXTextField;
-import dao.custom.ItemDAO;
-import dao.custom.impl.ItemDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import model.ItemDTO;
-import view.tm.ItemTM;
+import dto.ItemDTO;
 import util.LoadFXMLFile;
+import view.tm.ItemTM;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class AddItemController {
-    private final ItemDAO itemDAO = new ItemDAOImpl();
-    private final ItemBO itemBO = new ItemBOImpl();
+    private final ItemBO itemBO = (ItemBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.ITEM);
     public JFXTextField txtDesc;
     public JFXTextField txtqtyOnHand;
     public JFXTextField txtpackSize;

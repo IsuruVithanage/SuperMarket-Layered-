@@ -19,7 +19,7 @@
             </JFXButton>
             <ImageView fitHeight="176.0" fitWidth="181.0" layoutX="106.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/cart.png" />
+                  <Image url="@assets/cart.png" />
                </image>
             </ImageView>
             <Label layoutX="69.0" layoutY="303.0" text="MAKE CUSTOMER ORDER" textFill="WHITE">
@@ -34,7 +34,7 @@
             </JFXButton>
             <ImageView fitHeight="176.0" fitWidth="174.0" layoutX="483.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/edit.jpg" />
+                  <Image url="@assets/edit.jpg" />
                </image>
             </ImageView>
             <Label layoutX="483.0" layoutY="303.0" text="MANAGE ORDERS" textFill="WHITE">
@@ -65,7 +65,7 @@
       <FontAwesomeIconView glyphName="POWER_OFF" layoutX="27.0" layoutY="583.0" size="15" />
       <ImageView fitHeight="55.0" fitWidth="75.0" layoutX="8.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/inlogo2.png" />
+            <Image url="@assets/inlogo2.png" />
          </image>
       </ImageView>
    </children>

@@ -1,10 +1,11 @@
 package bo.custom;
 
-import model.CustIncomeDTO;
+import bo.SuperBO;
+import dto.CustIncomeDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface CustomerIncomeBO {
+public interface CustomerIncomeBO extends SuperBO {
     ArrayList<CustIncomeDTO> getCustomerIncome() throws SQLException, ClassNotFoundException;
 }

@@ -1,17 +1,18 @@
 package bo.custom;
 
+import bo.SuperBO;
 import javafx.collections.ObservableList;
-import model.CustomerDTO;
-import model.ItemDTO;
-import model.OrderDTO;
-import model.OrderDetail;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import dto.OrderDTO;
+import entity.OrderDetail;
 import view.tm.CartTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ManageOrderBO {
+public interface ManageOrderBO extends SuperBO {
     List<String> getOrderIdsbyCustomer(String id) throws SQLException, ClassNotFoundException;
 
     CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException;

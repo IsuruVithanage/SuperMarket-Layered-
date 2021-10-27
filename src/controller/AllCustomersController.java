@@ -1,13 +1,13 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.CustomerBO;
-import bo.custom.impl.CustomerBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.CustomerDTO;
+import dto.CustomerDTO;
 import view.tm.CustomerTM;
 
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class AllCustomersController {
-    private final CustomerBO customerBO = new CustomerBOImpl();
+    private final CustomerBO customerBO = (CustomerBO) BoFactory.getBOFactory().getBO(BoFactory.BoTypes.CUSTOMER);
     public AnchorPane contectCust;
     public TableView<CustomerTM> tblCust;
     public TableColumn<CustomerTM, String> colID;
