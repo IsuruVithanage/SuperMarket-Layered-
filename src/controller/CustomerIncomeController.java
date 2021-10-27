@@ -1,21 +1,24 @@
 package controller;
 
+import bo.custom.CustomerIncomeBO;
+import bo.custom.impl.CustomerIncomeBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.CustIncome;
-import model.ItemTM;
+import model.CustIncomeDTO;
+import view.tm.CustomerIncomeTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerIncomeController {
-    public TableView<ItemTM> tblCust;
-    public TableColumn<ItemTM, String> colCustID;
-    public TableColumn<ItemTM, String> colIncome;
-    ObservableList<ItemTM> obList = FXCollections.observableArrayList();
+    private final ObservableList<CustomerIncomeTM> obList = FXCollections.observableArrayList();
+    private final CustomerIncomeBO cutomerIncome = new CustomerIncomeBOImpl();
+    public TableView<CustomerIncomeTM> tblCust;
+    public TableColumn<CustomerIncomeTM, String> colCustID;
+    public TableColumn<CustomerIncomeTM, String> colIncome;
 
     public void initialize() {
 
@@ -26,10 +29,10 @@ public class CustomerIncomeController {
 
     private void loadData() {
         try {
-            ArrayList<CustIncome> custList = new OrderController().cutomerIncome();
+            ArrayList<CustIncomeDTO> custList = cutomerIncome.getCustomerIncome();
 
             custList.forEach(e -> {
-                ItemTM tm = new ItemTM(e.getCustId(), null, null, 0, e.getIncome(), 7, null);
+                CustomerIncomeTM tm = new CustomerIncomeTM(e.getCustId(), e.getIncome());
                 obList.add(tm);
 
             });

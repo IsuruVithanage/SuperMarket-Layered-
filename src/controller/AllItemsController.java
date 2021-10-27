@@ -1,21 +1,21 @@
 package controller;
 
-import dao.custom.ItemDAO;
-import dao.custom.impl.ItemDAOImpl;
+import bo.custom.ItemBO;
+import bo.custom.impl.ItemBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.Item;
-import model.ItemTM;
+import model.ItemDTO;
+import view.tm.ItemTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class AllItemsController {
-    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final ItemBO itemBO = new ItemBOImpl();
     public AnchorPane contextItem;
     public TableView<ItemTM> tblItem;
     public TableColumn<ItemTM, String> colID;
@@ -37,13 +37,13 @@ public class AllItemsController {
         colDelete.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
         try {
-            setItemToTable(itemDAO.getAll());
+            setItemToTable(itemBO.getAllItems());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    private void setItemToTable(ArrayList<Item> customers) {
+    private void setItemToTable(ArrayList<ItemDTO> customers) {
         ObservableList<ItemTM> obList = FXCollections.observableArrayList();
         customers.forEach(e -> {
             Button btn = new Button("Delete");
@@ -60,7 +60,7 @@ public class AllItemsController {
                 } else if (result.get() == ButtonType.OK) {
 
                     try {
-                        itemDAO.delete(tm.getItemCode());
+                        itemBO.deleteItem(tm.getItemCode());
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }

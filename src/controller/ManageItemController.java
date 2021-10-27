@@ -1,7 +1,7 @@
 package controller;
 
-import dao.custom.ItemDAO;
-import dao.custom.impl.ItemDAOImpl;
+import bo.custom.ItemBO;
+import bo.custom.impl.ItemBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,9 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Item;
-import model.ItemTM;
+import model.ItemDTO;
 import util.LoadFXMLFile;
+import view.tm.ItemTM;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class ManageItemController {
+    private final ObservableList<ItemTM> obList = FXCollections.observableArrayList();
+    private final ItemBO itemBO = new ItemBOImpl();
     public TableView<ItemTM> tblItem;
     public TableColumn<ItemTM, String> colID;
     public TableColumn<ItemTM, String> colDesc;
@@ -32,8 +34,6 @@ public class ManageItemController {
     public TableColumn<ItemTM, String> colDelete;
     public Label itemCount;
     public AnchorPane contextManage;
-    ObservableList<ItemTM> obList = FXCollections.observableArrayList();
-    private final ItemDAO itemDAO = new ItemDAOImpl();
 
     public void initialize() {
 
@@ -47,8 +47,8 @@ public class ManageItemController {
 
 
         try {
-            setItemToTable(itemDAO.getAll());
-            itemCount.setText(String.valueOf(itemDAO.getAll().size()));
+            setItemToTable(itemBO.getAllItems());
+            itemCount.setText(String.valueOf(itemBO.getAllItems().size()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class ManageItemController {
         });
     }
 
-    private void setItemToTable(ArrayList<Item> items) {
+    private void setItemToTable(ArrayList<ItemDTO> items) {
 
         items.forEach(e -> {
             Button btn = new Button("Delete");
@@ -79,7 +79,7 @@ public class ManageItemController {
                 } else if (result.get() == ButtonType.OK) {
 
                     try {
-                        itemDAO.delete(tm.getItemCode());
+                        itemBO.deleteItem(tm.getItemCode());
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }

@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.IncomeReportsBO;
+import bo.custom.impl.IncomeReportsBOImpl;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -12,11 +14,11 @@ import util.LoadFXMLFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IncomeReportsController {
+    private final IncomeReportsBO incomeReportsBO = new IncomeReportsBOImpl();
     public AnchorPane contextAdmin;
     public BarChart tblChart;
     public Label mostItemId;
@@ -39,9 +41,9 @@ public class IncomeReportsController {
     }
 
     public void loadData() throws SQLException, ClassNotFoundException {
-        List<ItemSells> itemSells = new OrderController().selectTopItem();
+        List<ItemSells> itemSells = incomeReportsBO.selectAllItemSell();
         itemSells.sort(new MyComparator());
-        ArrayList<MounthlyIncome> mounth = new OrderController().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth = incomeReportsBO.mounthlyIncome();
 
         mostItemId.setText(itemSells.get(0).getItemId());
         mostItemSell.setText(String.valueOf(itemSells.get(0).getSell()));
@@ -57,7 +59,7 @@ public class IncomeReportsController {
 
         XYChart.Series set2 = new XYChart.Series<>();
         for (MounthlyIncome m : mounth) {
-            set2.getData().add(new XYChart.Data(new DateFormatSymbols().getMonths()[m.getMounth()], m.getIncome()));
+            set2.getData().add(new XYChart.Data(m.getMounth(), m.getIncome()));
 
         }
         tblIncom.getData().addAll(set2);

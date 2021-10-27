@@ -53,14 +53,14 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
     public ArrayList<OrderDetail> selectOrder(String orderid) throws SQLException, ClassNotFoundException {
         ArrayList<OrderDetail> OrdeDetailsList = new ArrayList<>();
-        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM OrderDetail WHERE OrderId=?");
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM OrderDetail WHERE OrderId=?",orderid);
         while (rst.next()) {
             OrdeDetailsList.add(new OrderDetail(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getInt(3),
-                    rst.getDouble(4),
-                    rst.getDouble(5)
+                    rst.getDouble(5),
+                    rst.getDouble(4)
             ));
         }
         return OrdeDetailsList;

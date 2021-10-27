@@ -3,7 +3,7 @@ package dao.custom.impl;
 import dao.CrudUtil;
 import dao.custom.ItemDAO;
 import model.Item;
-import model.ItemDetails;
+import model.ItemSells;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,25 +25,32 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ArrayList<ItemDetails> selectItemsell(String itemId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM OrderDetail WHERE ItemCode=?", itemId);
-        ArrayList<ItemDetails> ids = new ArrayList<>();
-        while (rst.next()) {
-            ids.add(new ItemDetails(
-                    rst.getString(1),
-                    rst.getInt(3),
-                    rst.getDouble(5),
-                    rst.getDouble(4))
-            );
-        }
-        return ids;
+    public boolean updateQTY(String itemCode, int qty) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate("UPDATE Item SET QtyOnHand=(QtyOnHand-?) WHERE  ItemCode=?", qty, itemCode);
     }
 
     @Override
-    public boolean updateQTY(String itemCode, int qty) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate("UPDATE Item SET QtyOnHand=(QtyOnHand-?) WHERE  ItemCode=?",
-                qty,
-                itemCode);
+    public ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT ItemCode,count(ItemCode) from OrderDetail group by ItemCode");
+        ArrayList<ItemSells> itemsList = new ArrayList<>();
+        while (rst.next()) {
+            itemsList.add(new ItemSells(
+                    rst.getString(1),
+                    rst.getInt(2)
+            ));
+        }
+        return itemsList;
+    }
+
+    @Override
+    public int getItemQTYOnHand(String id) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Item WHERE ItemCode=?", id);
+        int QTYOnHand = 0;
+        while (rst.next()) {
+            QTYOnHand = rst.getInt(4);
+
+        }
+        return QTYOnHand;
     }
 
     @Override
@@ -87,7 +94,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public Item search(String s) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Item WHERE id=?", s);
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Item WHERE ItemCode=?", s);
         rst.next();
         return new Item(
                 s,

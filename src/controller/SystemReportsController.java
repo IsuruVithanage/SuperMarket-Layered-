@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.IncomeReportsBO;
+import bo.custom.impl.IncomeReportsBOImpl;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
@@ -13,11 +15,11 @@ import util.LoadFXMLFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SystemReportsController {
+    private final IncomeReportsBO incomeReportsBO = new IncomeReportsBOImpl();
     public AnchorPane contextSys;
     public BarChart tblChart;
     public Label mostItemId;
@@ -30,17 +32,14 @@ public class SystemReportsController {
     public Label lblMonthIncome;
     public JFXComboBox<String> cmbMonth;
 
-
     public void initialize() {
         loadYers();
         loadMonth();
 
         try {
             loadData();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         cmbYear.getSelectionModel().selectedItemProperty().
@@ -48,10 +47,8 @@ public class SystemReportsController {
                     if (newValue.equals(2021)) {
                         try {
                             lblYearIncome.setText(String.valueOf(annualIncome()));
-                        } catch (SQLException throwables) {
+                        } catch (SQLException | ClassNotFoundException throwables) {
                             throwables.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
                         }
                     } else {
                         lblYearIncome.setText("0");
@@ -62,18 +59,16 @@ public class SystemReportsController {
                 addListener((observable, oldValue, newValue) -> {
                     try {
                         lblMonthIncome.setText(String.valueOf(mounthlyIncome(newValue)));
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
                     }
                 });
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {
-        List<ItemSells> itemSells = new OrderController().selectTopItem();
+        List<ItemSells> itemSells = incomeReportsBO.selectAllItemSell();
         itemSells.sort(new MyComparator());
-        ArrayList<MounthlyIncome> mounth = new OrderController().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth = incomeReportsBO.mounthlyIncome();
 
         mostItemId.setText(itemSells.get(0).getItemId());
         mostItemSell.setText(String.valueOf(itemSells.get(0).getSell()));
@@ -89,7 +84,7 @@ public class SystemReportsController {
 
         XYChart.Series set2 = new XYChart.Series<>();
         for (MounthlyIncome m : mounth) {
-            set2.getData().add(new XYChart.Data(new DateFormatSymbols().getMonths()[m.getMounth()], m.getIncome()));
+            set2.getData().add(new XYChart.Data(m.getMounth(), m.getIncome()));
 
         }
         tblIncom.getData().addAll(set2);
@@ -118,12 +113,10 @@ public class SystemReportsController {
                 "October", "November", "December"};
 
         cmbMonth.getItems().addAll(months);
-
-
     }
 
     public double annualIncome() throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> mounth = new OrderController().mounthlyIncome();
+        ArrayList<MounthlyIncome> mounth = incomeReportsBO.mounthlyIncome();
         double yearTotal = 0;
 
         for (MounthlyIncome m : mounth) {
@@ -134,67 +127,17 @@ public class SystemReportsController {
 
     }
 
-    public double mounthlyIncome(String mounthIndex) throws SQLException, ClassNotFoundException {
-        ArrayList<MounthlyIncome> mounth = new OrderController().mounthlyIncome();
+    public double mounthlyIncome(String month) throws SQLException, ClassNotFoundException {
+        ArrayList<MounthlyIncome> incomes = incomeReportsBO.mounthlyIncome();
         double mounthTotal = 0;
-        int index = index(mounthIndex);
 
-        for (MounthlyIncome m : mounth) {
-            if (index - 1 == m.getMounth()) {
+        for (MounthlyIncome m : incomes) {
+            if (month.equals(m.getMounth())) {
                 mounthTotal = m.getIncome();
             }
         }
 
         return mounthTotal;
     }
-
-    public int index(String month) {
-        int monthString;
-
-        switch (month) {
-            case "January":
-                monthString = 1;
-                break;
-            case "February":
-                monthString = 2;
-                break;
-            case "March":
-                monthString = 3;
-                break;
-            case "April":
-                monthString = 4;
-                break;
-            case "May":
-                monthString = 5;
-                break;
-            case "June":
-                monthString = 6;
-                break;
-            case "July":
-                monthString = 7;
-                break;
-            case "August":
-                monthString = 8;
-                break;
-            case "September":
-                monthString = 9;
-                break;
-            case "October":
-                monthString = 10;
-                break;
-            case "November":
-                monthString = 11;
-                break;
-            case "December":
-                monthString = 12;
-                break;
-            default:
-                monthString = 0;
-                break;
-        }
-
-        return monthString;
-    }
-
 
 }

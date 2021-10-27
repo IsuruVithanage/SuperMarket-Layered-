@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.ItemBO;
+import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.ItemDAO;
 import dao.custom.impl.ItemDAOImpl;
@@ -7,8 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import model.Item;
-import model.ItemTM;
+import model.ItemDTO;
+import view.tm.ItemTM;
 import util.LoadFXMLFile;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 
 public class AddItemController {
     private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final ItemBO itemBO = new ItemBOImpl();
     public JFXTextField txtDesc;
     public JFXTextField txtqtyOnHand;
     public JFXTextField txtpackSize;
@@ -29,15 +32,15 @@ public class AddItemController {
     }
 
     public void addItem(ActionEvent actionEvent) {
-        Item item = new Item(itemCode.getText(), txtDesc.getText(), txtpackSize.getText(), Integer.parseInt(txtqtyOnHand.getText()), Double.parseDouble(txtunitPrice.getText()), Double.parseDouble(txtDiscount.getText()));
+        ItemDTO item = new ItemDTO(itemCode.getText(), txtDesc.getText(), txtpackSize.getText(), Integer.parseInt(txtqtyOnHand.getText()), Double.parseDouble(txtunitPrice.getText()), Double.parseDouble(txtDiscount.getText()));
 
         try {
-            if (itemDAO.ifItemExist(itemCode.getText())) {
-                itemDAO.delete(itemCode.getText());
-                itemDAO.add(item);
+            if (itemBO.ifItemExist(itemCode.getText())) {
+                itemBO.deleteItem(itemCode.getText());
+                itemBO.addItem(item);
             } else {
                 try {
-                    if (itemDAO.add(item)) {
+                    if (itemBO.addItem(item)) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
 
                     } else {
@@ -62,7 +65,7 @@ public class AddItemController {
     //Set generated Item ID
     private void setItemCode() {
         try {
-            itemCode.setText(itemDAO.generateNewID());
+            itemCode.setText(itemBO.generateNewID());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

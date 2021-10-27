@@ -1,22 +1,22 @@
 package model;
 
 public class MounthlyIncome {
-    private int mounth;
+    private String mounth;
     private double income;
 
     public MounthlyIncome() {
     }
 
-    public MounthlyIncome(int mounth, double income) {
+    public MounthlyIncome(String mounth, double income) {
         this.mounth = mounth;
         this.income = income;
     }
 
-    public int getMounth() {
+    public String getMounth() {
         return mounth;
     }
 
-    public void setMounth(int mounth) {
+    public void setMounth(String mounth) {
         this.mounth = mounth;
     }
 

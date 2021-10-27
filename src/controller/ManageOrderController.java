@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.ManageOrderBO;
+import bo.custom.impl.ManageOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import dao.custom.CustomerDAO;
@@ -16,8 +18,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.*;
+import model.CustomerDTO;
+import model.ItemDTO;
+import model.OrderDTO;
+import model.OrderDetail;
 import util.LoadFXMLFile;
+import view.tm.CartTM;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,10 +32,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class ManageOrderController extends MakeCustomerOrderController {
-    private final OrderDAO orderDAO = new OrderDAOImpl();
-    private final ItemDAO itemDAO = new ItemDAOImpl();
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
+    //Load Items for specific order in the table
+    private final ObservableList<CartTM> obList = FXCollections.observableArrayList();
+    private final ObservableList<CartTM> detetedItem = FXCollections.observableArrayList();
+    private final ManageOrderBO manageOrderBO = new ManageOrderBOImpl();
     public AnchorPane contextMO;
     public JFXComboBox<String> cmbItem;
     public TextField txtPackSize;
@@ -49,9 +55,6 @@ public class ManageOrderController extends MakeCustomerOrderController {
     public Label lbTotal;
     public TextField tctName;
     public JFXButton btnEditeOrder;
-    //Load Items for specific order in the table
-    ObservableList<CartTM> obList = FXCollections.observableArrayList();
-    ObservableList<CartTM> detetedItem = FXCollections.observableArrayList();
 
     public void initialize() {
 
@@ -87,7 +90,7 @@ public class ManageOrderController extends MakeCustomerOrderController {
                 addListener((observable, oldValue, newValue) -> {
                     try {
                         obList.clear();
-                        loadItemTable(orderDetailDAO.selectOrder(newValue));
+                        loadItemTable(manageOrderBO.selectOrder(newValue));
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }
@@ -108,13 +111,13 @@ public class ManageOrderController extends MakeCustomerOrderController {
 
     //Load Order Ids for specific Customer
     private void loadOrderIds(String id) throws SQLException, ClassNotFoundException {
-        List<String> customerIds = orderDAO.getOrderIdsbyCustomer(id);
+        List<String> customerIds = manageOrderBO.getOrderIdsbyCustomer(id);
         cmbOrderID.getItems().addAll(customerIds);
     }
 
     //Set customer data in to the text fields
     private void setCustomerData(String customerId) throws SQLException, ClassNotFoundException {
-        Customer c1 = customerDAO.search(customerId);
+        CustomerDTO c1 = manageOrderBO.searchCustomer(customerId);
         if (c1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -126,7 +129,7 @@ public class ManageOrderController extends MakeCustomerOrderController {
 
     //Set Item data in to the text fields
     public void setItemData(String itemCode) throws SQLException, ClassNotFoundException {
-        Item i1 = itemDAO.search(itemCode);
+        ItemDTO i1 = manageOrderBO.searchItem(itemCode);
         if (i1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -140,6 +143,9 @@ public class ManageOrderController extends MakeCustomerOrderController {
     private void loadItemTable(ArrayList<OrderDetail> itemList) {
         itemList.forEach(e -> {
             double discountPrice = (e.getOrderqty() * e.getPrice() * e.getDiscount()) / 100;
+            System.out.println(e.getOrderqty());
+            System.out.println(e.getPrice());
+            System.out.println(e.getDiscount());
             double total = (e.getOrderqty() * e.getPrice()) - discountPrice;
             Button rem = new Button("Remove");
             CartTM tm = new CartTM(e.getItemCode(), null, e.getOrderqty(), e.getPrice(), e.getDiscount(), total, rem);
@@ -196,12 +202,9 @@ public class ManageOrderController extends MakeCustomerOrderController {
             // alert is exited, no button has been pressed.
         } else if (result.get() == ButtonType.OK) {
             try {
-                orderDAO.delete(cmbOrderID.getSelectionModel().getSelectedItem());
-                itemDAO.delete(cmbOrderID.getSelectionModel().getSelectedItem());
-            } catch (SQLException throwables) {
+                manageOrderBO.deleteOrder(cmbOrderID.getSelectionModel().getSelectedItem());
+            } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         } else if (result.get() == ButtonType.CANCEL) {
             // cancel button is pressed
@@ -228,8 +231,8 @@ public class ManageOrderController extends MakeCustomerOrderController {
             OrderDTO order = new OrderDTO(cmbOrderID.getSelectionModel().getSelectedItem(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
             try {
-                if (new OrderController().updateOrder(order.getOrderId(), order.getItems(), detetedItem)) {
-                    orderDAO.add(order);
+                if (manageOrderBO.updateOrder(order.getOrderId(), order.getItems(), detetedItem)) {
+                    manageOrderBO.placeOrder(order);
                 } else {
                     new Alert(Alert.AlertType.WARNING, "Try Again").show();
                 }

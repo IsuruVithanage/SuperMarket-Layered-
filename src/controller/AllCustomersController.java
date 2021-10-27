@@ -1,21 +1,21 @@
 package controller;
 
-import dao.custom.CustomerDAO;
-import dao.custom.impl.CustomerDAOImpl;
+import bo.custom.CustomerBO;
+import bo.custom.impl.CustomerBOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.Customer;
-import model.CustomerTM;
+import model.CustomerDTO;
+import view.tm.CustomerTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class AllCustomersController {
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final CustomerBO customerBO = new CustomerBOImpl();
     public AnchorPane contectCust;
     public TableView<CustomerTM> tblCust;
     public TableColumn<CustomerTM, String> colID;
@@ -39,13 +39,13 @@ public class AllCustomersController {
         colDelete.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
         try {
-            setCustomersToTable(customerDAO.getAll());
+            setCustomersToTable(customerBO.getAllCustomers());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    private void setCustomersToTable(ArrayList<Customer> customers) {
+    private void setCustomersToTable(ArrayList<CustomerDTO> customers) {
         ObservableList<CustomerTM> obList = FXCollections.observableArrayList();
         customers.forEach(e -> {
             Button btn = new Button("Delete");
@@ -62,7 +62,7 @@ public class AllCustomersController {
                 } else if (result.get() == ButtonType.OK) {
 
                     try {
-                        customerDAO.delete(tm.getCustomerId());
+                        customerBO.deleteCustomer(tm.getCustomerId());
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }

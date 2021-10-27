@@ -1,11 +1,12 @@
 package controller;
 
+import bo.custom.ManageOrderBO;
+import bo.custom.impl.ManageOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDetailDAO;
-import dao.custom.impl.CustomerDAOImpl;
 import dao.custom.impl.ItemDAOImpl;
 import dao.custom.impl.OrderDAOImpl;
 import dao.custom.impl.OrderDetailDAOImpl;
@@ -19,8 +20,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import model.*;
+import model.CustomerDTO;
+import model.ItemDTO;
+import model.OrderDTO;
+import model.OrderDetail;
 import util.LoadFXMLFile;
+import view.tm.CartTM;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,6 +40,9 @@ public class MakeCustomerOrderController {
     private final OrderDAO orderDAO = new OrderDAOImpl();
     private final ItemDAO itemDAO = new ItemDAOImpl();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
+    //Add the item in to the Table
+    private final ObservableList<CartTM> obList = FXCollections.observableArrayList();
+    private final ManageOrderBO manageOrderBO = new ManageOrderBOImpl();
     public AnchorPane context;
     public Label lbTime;
     public Label lbDate;
@@ -60,8 +68,6 @@ public class MakeCustomerOrderController {
     public Label lbOrderId;
     public JFXButton btnPLaceOrder;
     public Label lbError;
-    //Add the item in to the Table
-    ObservableList<CartTM> obList = FXCollections.observableArrayList();
 
     public void initialize() {
 
@@ -235,7 +241,7 @@ public class MakeCustomerOrderController {
         OrderDTO order = new OrderDTO(lbOrderId.getText(), cmbCustID.getValue(), lbDate.getText(), lbTime.getText(), Double.parseDouble(lbTotal.getText()), items);
 
         try {
-            if (orderDAO.add(order) /*&& orderDetailDAO.add(order.getItems())*/) {
+            if (manageOrderBO.placeOrder(order)) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Success").show();
                 setorderId();
             } else {
@@ -279,14 +285,14 @@ public class MakeCustomerOrderController {
 
     //Load all customer ids to the comboBox
     public void loadCustomerIds() throws SQLException, ClassNotFoundException {
-        List<String> customerIds = new CustomerDAOImpl().getCustomerIds();
+        List<String> customerIds = manageOrderBO.getCustomerIds();
         cmbCustID.getItems().addAll(customerIds);
 
     }
 
     //Set customer data in to the text fields
     private void setCustomerData(String customerId) throws SQLException, ClassNotFoundException {
-        Customer c1 = new CustomerDAOImpl().search(customerId);
+        CustomerDTO c1 = manageOrderBO.searchCustomer(customerId);
         if (c1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -297,7 +303,7 @@ public class MakeCustomerOrderController {
 
     //Set Item data in to the text fields
     public void setItemData(String itemCode) throws SQLException, ClassNotFoundException {
-        Item i1 = itemDAO.search(itemCode);
+        ItemDTO i1 = manageOrderBO.searchItem(itemCode);
         if (i1 == null) {
             new Alert(Alert.AlertType.WARNING, "Empty Result Set");
         } else {
@@ -314,7 +320,7 @@ public class MakeCustomerOrderController {
     }
 
     public void loadItemIds() throws SQLException, ClassNotFoundException {
-        List<String> itemIds = new ItemDAOImpl().getAllItemIds();
+        List<String> itemIds = manageOrderBO.getItemIds();
         cmbItem.getItems().addAll(itemIds);
 
     }
@@ -322,7 +328,7 @@ public class MakeCustomerOrderController {
     //Set generated Order ID
     private void setorderId() {
         try {
-            lbOrderId.setText(orderDAO.generateNewOrderId());
+            lbOrderId.setText(manageOrderBO.generateNewOrderId());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

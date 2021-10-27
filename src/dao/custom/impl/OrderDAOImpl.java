@@ -2,14 +2,18 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.OrderDAO;
-import model.OrderDTO;
+import model.CustIncomeDTO;
+import model.MounthlyIncome;
+import model.Order;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
+    List<String> monthlist = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
     @Override
     public boolean ifOrderExist(String oid) throws SQLException, ClassNotFoundException {
@@ -40,6 +44,31 @@ public class OrderDAOImpl implements OrderDAO {
         return ids;
     }
 
+    @Override
+    public ArrayList<CustIncomeDTO> cutomerIncome() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT CustID,SUM(cost) From `Order` GROUP BY CustID");
+        ArrayList<CustIncomeDTO> custList = new ArrayList<>();
+        while (rst.next()) {
+            custList.add(new CustIncomeDTO(
+                    rst.getString(1),
+                    rst.getDouble(2)
+            ));
+        }
+        return custList;
+    }
+
+    @Override
+    public ArrayList<MounthlyIncome> mounthlyIncome() throws SQLException, ClassNotFoundException {
+        ArrayList<MounthlyIncome> income = new ArrayList<>();
+        for (String month : monthlist) {
+            ResultSet rst = CrudUtil.executeQuery("SELECT SUM(cost) From `Order` WHERE monthname(orderDate)=?", month);
+            while (rst.next()) {
+                income.add(new MounthlyIncome(month, rst.getDouble(1)));
+            }
+        }
+        return income;
+    }
+
 
     @Override
     public String generateNewOrderId() throws SQLException, ClassNotFoundException {
@@ -54,7 +83,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean add(OrderDTO order) throws SQLException, ClassNotFoundException {
+    public boolean add(Order order) throws SQLException, ClassNotFoundException {
         return CrudUtil.executeUpdate("INSERT INTO `Order` (OrderId, CustID, orderDate, time, cost) VALUES (?,?,?,?,?)",
                 order.getOrderId(),
                 order.getCustID(),
@@ -69,37 +98,35 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean update(OrderDTO order) throws SQLException, ClassNotFoundException {
+    public boolean update(Order order) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public OrderDTO search(String s) throws SQLException, ClassNotFoundException {
+    public Order search(String s) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order` WHERE OrderId=?", s);
         rst.next();
-        return new OrderDTO(
+        return new Order(
                 s,
                 rst.getString(2),
                 rst.getString(3),
                 rst.getString(4),
-                rst.getDouble(5),
-                null
+                rst.getDouble(5)
 
         );
     }
 
     @Override
-    public ArrayList<OrderDTO> searchOrderbyCustId(String custId) throws SQLException, ClassNotFoundException {
+    public ArrayList<Order> searchOrderbyCustId(String custId) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order` WHERE CustID=?", custId);
-        ArrayList<OrderDTO> orderList = new ArrayList<>();
+        ArrayList<Order> orderList = new ArrayList<>();
         while (rst.next()) {
-            orderList.add(new OrderDTO(
+            orderList.add(new Order(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
-                    rst.getDouble(5),
-                    null
+                    rst.getDouble(5)
 
             ));
         }
@@ -107,17 +134,16 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public ArrayList<OrderDTO> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<OrderDTO> allOrders = new ArrayList<>();
+    public ArrayList<Order> getAll() throws SQLException, ClassNotFoundException {
+        ArrayList<Order> allOrders = new ArrayList<>();
         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM `Order`");
         while (rst.next()) {
-            allOrders.add(new OrderDTO(
+            allOrders.add(new Order(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
-                    rst.getDouble(5),
-                    null
+                    rst.getDouble(5)
             ));
         }
         return allOrders;

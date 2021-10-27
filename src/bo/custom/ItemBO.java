@@ -1,7 +1,7 @@
 package bo.custom;
 
-import model.Customer;
 import model.ItemDTO;
+import model.ItemSells;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,4 +23,12 @@ public interface ItemBO {
     ItemDTO searchItem(String id) throws SQLException, ClassNotFoundException;
 
     ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException;
+
+    boolean updateQTY(String itemCode, int qty) throws SQLException, ClassNotFoundException;
+
+    ArrayList<ItemSells> selectAllItemSell() throws SQLException, ClassNotFoundException;
+
+    int getItemQTYOnHand(String id) throws SQLException, ClassNotFoundException;
+
+
 }

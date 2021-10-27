@@ -1,13 +1,13 @@
 package model;
 
-public class CustIncome {
+public class CustIncomeDTO {
     private String custId;
     private double income;
 
-    public CustIncome() {
+    public CustIncomeDTO() {
     }
 
-    public CustIncome(String custId, double income) {
+    public CustIncomeDTO(String custId, double income) {
         this.custId = custId;
         this.income = income;
     }
